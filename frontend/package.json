@@ -1,0 +1,16 @@
+{
+  "name": "frontend",
+  "description": "React frontend for News Summarizer",
+  "version": "0.0.0",
+  "author": "Seung Ki Lee <seungkilee.cs@gmail.com>",
+  "bin": "src/cli.js",
+  "files": [
+    "src",
+    "templates"
+  ],
+  "dependencies": {
+    "axios": "^1.7.9",
+    "create-create-app": "^7.3.0"
+  },
+  "license": "MIT"
+}
