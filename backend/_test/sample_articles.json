@@ -1,0 +1,23 @@
+[
+    {
+      "title": "Sample News Article 1",
+      "url": "https://example.com/article1",
+      "content": "This is the content of the first sample article.",
+      "summary": [
+        "First point of the summary.",
+        "Second point of the summary.",
+        "Third point of the summary."
+      ]
+    },
+    {
+      "title": "Sample News Article 2",
+      "url": "https://example.com/article2",
+      "content": "This is the content of the second sample article.",
+      "summary": [
+        "First point of the second article summary.",
+        "Second point of the second article summary.",
+        "Third point of the second article summary."
+      ]
+    }
+  ]
+  

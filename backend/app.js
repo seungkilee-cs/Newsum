@@ -1,20 +1,25 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
+const { loadTestArticles } = require('./models/Article');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 app.use(cors());
 app.use(express.json());
 
-// Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+// Load test articles
+const testArticles = loadTestArticles();
 
 // Define routes
 app.get('/', (req, res) => {
   res.send('News Summarizer API');
+});
+
+// Route for articles
+app.get('/articles', (req, res) => {
+  res.json(testArticles);
 });
 
 // Start server
