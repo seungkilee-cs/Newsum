@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './App.css';
 
 function App() {
   const [articles, setArticles] = useState([]);
@@ -18,20 +19,25 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
-      <h1>News Summarizer</h1>
-      {articles.map(article => (
-        <div key={article._id}>
-          <h2>{article.title}</h2>
-          <ul>
-            {article.summary.map((point, index) => (
-              <li key={index}>{point}</li>
-            ))}
-          </ul>
-        </div>
-      ))}
+    <div className="app">
+      <header className="header">
+        <h1>News Summarizer</h1>
+      </header>
+      <main className="article-list">
+        {articles.map(article => (
+          <article key={article._id} className="article-card">
+            <h2 className="article-title">{article.title}</h2>
+            <ul className="article-summary">
+              {article.summary.map((point, index) => (
+                <li key={index} className="summary-point">{point}</li>
+              ))}
+            </ul>
+          </article>
+        ))}
+      </main>
     </div>
   );
+  
 }
 
 export default App;
