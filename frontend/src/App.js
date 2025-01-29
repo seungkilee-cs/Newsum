@@ -30,7 +30,7 @@ function App() {
       <header className="header">
         <h1>News Summarizer</h1>
         <button onClick={toggleView} className="view-toggle-btn">
-          {isCarouselView ? 'Switch to Grid View' : 'Switch to Carousel View'}
+          {isCarouselView ? 'Grid View' : 'Carousel View'}
         </button>
       </header>
       {articles.length > 0 ? (
