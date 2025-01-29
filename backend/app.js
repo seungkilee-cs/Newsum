@@ -6,30 +6,44 @@ const { loadTestArticles } = require('./models/Article');
 
 const app = express();
 const PORT = process.env.PORT || 5001;
+// app.listen(PORT, () => {
+//   console.log(`Server running on port ${PORT}`);
+// });
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.json());
 
-// Load test articles
-const testArticles = loadTestArticles();
+
+// Load test articles from backend -> Deprecate soon
+// const articles = loadTestArticles();
+
+let articles = [];
 
 // Define routes
 app.get('/', (req, res) => {
-  res.send('News Summarizer API');
+  res.send('Server is running');
+});
+
+
+app.post('/receive-articles', (req, res) => {
+  const newArticles = req.body;
+  // Update existing articles or add new ones
+  newArticles.forEach(newArticle => {
+      const index = articles.findIndex(a => a.url === newArticle.url);
+      if (index !== -1) {
+          articles[index] = newArticle; // Update existing article
+      } else {
+          articles.push(newArticle); // Add new article
+      }
+  });
+  console.log('Updated articles:', articles);
+  res.status(200).json({ message: 'Articles received and updated successfully' });
 });
 
 // Route for articles
 app.get('/articles', (req, res) => {
-  res.json(testArticles);
-});
-
-app.post('/receive-articles', (req, res) => {
-  const articles = req.body;
-  console.log('Received articles from scraper:', articles);
-  // Here you would typically process and store the articles
-  // For now, we'll just acknowledge receipt
-  res.status(200).json({ message: 'Articles received successfully' });
+  res.json(articles);
 });
 
 // Start server

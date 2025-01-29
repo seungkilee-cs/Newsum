@@ -1,0 +1,9 @@
+Title: Sample Article 1
+URL: https://example.com/article1
+Content: This is the content of sample article 1.
+Summary: First point of article 1.|Second point of article 1.|Third point of article 1.
+
+Title: Sample Article 2
+URL: https://example.com/article2
+Content: This is the content of sample article 2.
+Summary: First point of article 2.|Second point of article 2.|Third point of article 2.
