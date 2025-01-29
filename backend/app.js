@@ -2,21 +2,13 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 require('dotenv').config();
-const { loadTestArticles } = require('./models/Article');
 
 const app = express();
 const PORT = process.env.PORT || 5001;
-// app.listen(PORT, () => {
-//   console.log(`Server running on port ${PORT}`);
-// });
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.json());
-
-
-// Load test articles from backend -> Deprecate soon
-// const articles = loadTestArticles();
 
 let articles = [];
 
