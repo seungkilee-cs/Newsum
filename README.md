@@ -9,9 +9,9 @@ AI Powered News Article summarizer
 
 - [x] Get Top N news articles links to scrape the data from (from the landing page)
 - [x] For the links I get for the articles, make calls to scrape author, title, text, date, img url from the article (may benefit from writing the data temporarily so it's not all in the working memory)
+- [x] Construct Article object from scraped data and send it to nodejs backend
 - [ ] Send article text to summarizer for bullet point summary
 - [ ] Receive the summary bullet points from the summarizer to put into the article object -> May benefit from separate Main to call and construct object, while leaving the logics for handling scraping and summarizing modular.
-- [x] Construct Article object from scraped data and send it to nodejs backend
 
 ### Backend Module
 - Create article object to handle the text, image and other metadata to tie the summary to.
@@ -31,9 +31,9 @@ AI Powered News Article summarizer
 - Articles summarized and available for quick skimming with the bullet point summaries.
 - React.js
 
-- [x] Receive data from node js backend to display the article list view
+- [x] Receive data from node js backend to display the article list view showing summaries and meta data
 - [x] Link back to original Article
 - [ ] Display img of the article
-- [ ] Click into each article to see summary / details / links to the original article
 - [x] Display the trending articles
 - [x] Carousel vs Grid vs Card View for mobile adaptation
+- [ ] Click into each article to see details and links to the original article

@@ -1,8 +1,14 @@
 import requests
+import openai
+import os
+
 from bs4 import BeautifulSoup
 import os
 import logging
 from config import SAMPLE_URL_PATH
+
+openai.api_key = os.getenv('OPENAI_API_KEY')
+
 
 logging.basicConfig(level=logging.INFO)
 
