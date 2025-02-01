@@ -12,6 +12,7 @@ AI Powered News Article summarizer
 - [x] Construct Article object from scraped data and send it to nodejs backend
 - [ ] Send article text to summarizer for bullet point summary
 - [ ] Receive the summary bullet points from the summarizer to put into the article object -> May benefit from separate Main to call and construct object, while leaving the logics for handling scraping and summarizing modular.
+- [ ] Cache the article objects based on url, so we don't make calls to API more than once (per day?)
 
 ### Backend Module
 - Create article object to handle the text, image and other metadata to tie the summary to.
