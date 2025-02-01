@@ -70,6 +70,7 @@ def send_to_backend(articles):
 
 if __name__ == '__main__':
 
+    # testing with ALM
     response = requests.get(SAMPLE_NEWS_SITE_URL)
     soup = BeautifulSoup(response.content, 'html.parser')
 
