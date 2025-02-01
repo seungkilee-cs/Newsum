@@ -1,13 +1,14 @@
 const fs = require('fs');
 const path = require('path');
 
-function createArticle(title, url, content, summary) {
+function createArticle(title, url, date, author, content, summary) {
   return {
     title,
     url,
+    author,
+    date,
     content,
-    summary,
-    createdAt: new Date()
+    summary
   };
 }
 
@@ -20,6 +21,8 @@ function loadTestArticles() {
     return articles.map(article => createArticle(
       article.title,
       article.url,
+      article.author,
+      article.date,
       article.content,
       article.summary
     ));

@@ -6,7 +6,7 @@ import './App.css';
 
 function App() {
   const [articles, setArticles] = useState([]);
-  const [isCarouselView, setIsCarouselView] = useState(false);
+  const [isCarouselView, setIsCarouselView] = useState(true);
 
   useEffect(() => {
     const fetchArticles = async () => {
@@ -29,9 +29,9 @@ function App() {
     <div className="app">
       <header className="header">
         <h1>News Summarizer</h1>
-        <button onClick={toggleView} className="view-toggle-btn">
+        {/* <button onClick={toggleView} className="view-toggle-btn">
           {isCarouselView ? 'Grid View' : 'Carousel View'}
-        </button>
+        </button> */}
       </header>
       {articles.length > 0 ? (
         isCarouselView ? (

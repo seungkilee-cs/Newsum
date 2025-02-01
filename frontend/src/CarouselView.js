@@ -4,7 +4,7 @@ import 'swiper/css';
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/navigation';
 import { EffectCoverflow, Navigation } from 'swiper/modules';
-import './CarouselView.css'; // We'll create this file for carousel-specific styles
+import './CarouselView.css';
 
 function CarouselView({ articles }) {
   return (
@@ -32,6 +32,10 @@ function CarouselView({ articles }) {
               {index < 3 && <span className="trending-tag">Trending</span>}
             </div>
             <h2 className="article-title">{article.title}</h2>
+            <div className="article-meta">
+              <span className="article-author">{article.author}</span>
+              <span className="article-date">{article.date}</span>
+            </div>
             <ul className="article-summary">
               {article.summary.map((point, pointIndex) => (
                 <li key={pointIndex} className="summary-point">{point}</li>
