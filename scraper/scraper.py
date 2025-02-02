@@ -3,6 +3,7 @@ import json
 from bs4 import BeautifulSoup
 from datetime import datetime
 from config import SAMPLE_URL_PATH, SAMPLE_NEWS_SITE_URL
+from summarizer import generate_summary
 
 # DEBUG = True
 DEBUG = False
@@ -48,13 +49,15 @@ def scrape_article(url):
     # Join the text elements
     article_content = extract_article_text(soup)
 
+    article_summary = generate_summary(article_content=article_content, test=True)
+
     return {
         'title': title,
         'url': url,
         'author': author,
         'date': date,
         'content': article_content,
-        'summary': ['Sum1', 'Sum2', 'Sum3']
+        'summary': article_summary
     }
 
 def send_to_backend(articles):

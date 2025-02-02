@@ -10,8 +10,8 @@ AI Powered News Article summarizer
 - [x] Get Top N news articles links to scrape the data from (from the landing page)
 - [x] For the links I get for the articles, make calls to scrape author, title, text, date, img url from the article (may benefit from writing the data temporarily so it's not all in the working memory)
 - [x] Construct Article object from scraped data and send it to nodejs backend
-- [ ] Send article text to summarizer for bullet point summary
-- [ ] Receive the summary bullet points from the summarizer to put into the article object -> May benefit from separate Main to call and construct object, while leaving the logics for handling scraping and summarizing modular.
+- [x] Send article text to summarizer for bullet point summary
+- [x] Receive the summary bullet points from the summarizer to put into the article object -> May benefit from separate Main to call and construct object, while leaving the logics for handling scraping and summarizing modular.
 - [ ] Cache the article objects based on url, so we don't make calls to API more than once (per day?)
 
 ### Backend Module
@@ -26,7 +26,7 @@ AI Powered News Article summarizer
 - Python with OpenAI API
 
 - [ ] Receive article content from scraper to make API call to LLM text summarizer to produce three bullet point summaries
-- [ ] Send bullet point summaries to scraper to construct object to send to backend
+- [x] Send bullet point summaries to scraper to construct object to send to backend
 
 ### Frontend Module
 - Articles summarized and available for quick skimming with the bullet point summaries.
