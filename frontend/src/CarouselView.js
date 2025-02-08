@@ -31,13 +31,14 @@ function CarouselView({ articles }) {
               <span className={`article-number rank-${index + 1}`}>{index + 1}</span>
               {index < 3 && <span className="trending-tag">Trending</span>}
             </div>
-            <h2 className="article-title">{article.title}</h2>
+            <h2 className="article-title" title={article.title}>
+              {article.title}
+            </h2>
             <div className="article-meta">
               <span className="article-author">{article.author}</span>
               <span className="article-date">{article.date}</span>
             </div>
             <ul className="article-summary">
-              {/* Highlighted change: Check if article.summary is an array */}
               {Array.isArray(article.summary) ? (
                 article.summary.map((point, pointIndex) => (
                   <li key={pointIndex} className="summary-point">{point}</li>

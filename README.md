@@ -25,7 +25,7 @@ AI Powered News Article summarizer
 - Make calls to some LLM to summarize the news article and return the text to be processed and added to the article object.
 - Python with OpenAI API
 
-- [ ] Receive article content from scraper to make API call to LLM text summarizer to produce three bullet point summaries
+- [x] Receive article content from scraper to make API call to LLM text summarizer to produce three bullet point summaries
 - [x] Send bullet point summaries to scraper to construct object to send to backend
 
 ### Frontend Module
