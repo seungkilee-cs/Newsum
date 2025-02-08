@@ -37,9 +37,14 @@ function CarouselView({ articles }) {
               <span className="article-date">{article.date}</span>
             </div>
             <ul className="article-summary">
-              {article.summary.map((point, pointIndex) => (
-                <li key={pointIndex} className="summary-point">{point}</li>
-              ))}
+              {/* Highlighted change: Check if article.summary is an array */}
+              {Array.isArray(article.summary) ? (
+                article.summary.map((point, pointIndex) => (
+                  <li key={pointIndex} className="summary-point">{point}</li>
+                ))
+              ) : (
+                <li className="summary-point">{article.summary || 'No summary available'}</li>
+              )}
             </ul>
             <a href={article.url} className="read-more" target="_blank" rel="noopener noreferrer">Read More</a>
           </article>
