@@ -3,6 +3,17 @@ AI Powered News Article summarizer
 
 ## Design
 
+## Business question
+1. To what extent are we going support the summary service
+2. Tech Decision -> We are going to be making 1 API per day -> store the result in server -> "Breaking News" "What time of the day" (Update Interval)
+
+### Websites for News
+- FOX
+- The Guardian
+- Daily Signal
+- National Review
+- WSJ (Cost)
+
 ### Scraper Module
 - Scrape the news site to get top 5-10 articles and their links.
 - Python with BeautifulSoup or Scrapy
@@ -12,7 +23,8 @@ AI Powered News Article summarizer
 - [x] Construct Article object from scraped data and send it to nodejs backend
 - [x] Send article text to summarizer for bullet point summary
 - [x] Receive the summary bullet points from the summarizer to put into the article object -> May benefit from separate Main to call and construct object, while leaving the logics for handling scraping and summarizing modular.
-- [ ] Cache the article objects based on url, so we don't make calls to API more than once (per day?)
+- [ ] Server Architecture to host the scraped data
+- [ ] App makes calls to Server instead of the API
 
 ### Backend Module
 - Create article object to handle the text, image and other metadata to tie the summary to.
@@ -20,6 +32,8 @@ AI Powered News Article summarizer
 
 - [x] Receive article data from Python Scraper
 - [x] Send article data to React Frontend for display
+
+- [ ] Server makes a once a day "scrape" and API call, save the data, and hosts it as the client connects to the app.
 
 ### Summarizer Module
 - Make calls to some LLM to summarize the news article and return the text to be processed and added to the article object.
@@ -37,4 +51,5 @@ AI Powered News Article summarizer
 - [ ] Display img of the article
 - [x] Display the trending articles
 - [x] Carousel vs Grid vs Card View for mobile adaptation
-- [ ] Click into each article to see details and links to the original article
+- [x] Click into each article to links to the original article
+- [ ] Perhaps include a "detail" view? -> Expanded view with "Expand"

@@ -49,7 +49,7 @@ def scrape_article(url):
     # Join the text elements
     article_content = extract_article_text(soup)
 
-    article_summary = generate_summary(article_content=article_content, test=True)
+    article_summary = generate_summary(article_content=article_content, test=False)
 
     return {
         'title': title,
