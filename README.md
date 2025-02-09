@@ -52,4 +52,11 @@ AI Powered News Article summarizer
 - [x] Display the trending articles
 - [x] Carousel vs Grid vs Card View for mobile adaptation
 - [x] Click into each article to links to the original article
+
+
+#### Feedback
+- [ ] Bullet Points list (-)
+
+- [ ] Headlines -> alt size / text wrap
 - [ ] Perhaps include a "detail" view? -> Expanded view with "Expand"
+- [ ] Visual -> Color Scheme (customize to specific news sites) -> ALM (R/W/B)
