@@ -1,7 +1,16 @@
+const mongoose = require('mongoose');s
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 require('dotenv').config();
+
+// mongoose.connect('mongodb://localhost/your-database-name', { useNewUrlParser: true, useUnifiedTopology: true });
+
+// const db = mongoose.connection;
+// db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+// db.once('open', () => {
+//   console.log('Connected to MongoDB');
+// });
 
 const app = express();
 const PORT = process.env.PORT || 5001;
