@@ -7,6 +7,7 @@ from summarizer import generate_summary
 
 # DEBUG = True
 DEBUG = False
+TEST = True
 
 # Use the constants directly:
 sample_url_path = SAMPLE_URL_PATH
@@ -49,7 +50,7 @@ def scrape_article(url):
     # Join the text elements
     article_content = extract_article_text(soup)
 
-    article_summary = generate_summary(article_content=article_content, test=False)
+    article_summary = generate_summary(article_content=article_content, test=TEST)
 
     return {
         'title': title,
