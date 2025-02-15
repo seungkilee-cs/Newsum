@@ -37,7 +37,11 @@ AI Powered News Article summarizer
 - Node.js with Express.js
 
 - [x] Receive article data from Python Scraper
+    - [x] Write the data to MongoDB schema
 - [x] Send article data to React Frontend for display
+    - [ ] Update the data posting to pull from DB
+    - [ ] Update the url db to modular pointing
+- [x] Save the article data to MongoDB
 
 - [ ] Server makes a once a day "scrape" and API call, save the data, and hosts it as the client connects to the app.
 
@@ -59,6 +63,9 @@ AI Powered News Article summarizer
 - [x] Carousel vs Grid vs Card View for mobile adaptation
 - [x] Click into each article to links to the original article
 
+### House Keeping
+- [x] Standard Autodeploy script
+- [x] start / end switch for mongoDB and backend
 
 #### Feedback
 - [ ] Bullet Points list (-)

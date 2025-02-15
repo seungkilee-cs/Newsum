@@ -1,13 +1,16 @@
 import requests
-import json
 from bs4 import BeautifulSoup
-from datetime import datetime
 from config import SAMPLE_URL_PATH, SAMPLE_NEWS_SITE_URL
 from summarizer import generate_summary
+
+import json
+from datetime import datetime
+
 
 # DEBUG = True
 DEBUG = False
 TEST = True
+MONGO = True
 
 # Use the constants directly:
 sample_url_path = SAMPLE_URL_PATH
@@ -52,22 +55,38 @@ def scrape_article(url):
 
     article_summary = generate_summary(article_content=article_content, test=TEST)
 
-    return {
-        'title': title,
-        'url': url,
-        'author': author,
-        'date': date,
-        'content': article_content,
-        'summary': article_summary
-    }
+    if MONGO:
+        return {
+            'title': title,
+            'url': url,
+            'author': author,
+            'publishDate': date,
+            'content': article_content.split('\n') if isinstance(article_content, str) else article_content,
+            'summary': article_summary if isinstance(article_summary, list) else [article_summary],
+            'imageUrl': 'test.url'  # Add this field, even if empty
+        }
+
+    else:
+        return {
+            'title': title,
+            'url': url,
+            'author': author,
+            'date': date,
+            'content': article_content,
+            'summary': article_summary
+        }
 
 def send_to_backend(articles):
-    backend_url = 'http://localhost:5001/receive-articles'
+    if MONGO:
+        backend_url = 'http://localhost:5001/mongo-receive-articles'
+    else:
+        backend_url = 'http://localhost:5001/receive-articles'
     headers = {'Content-Type': 'application/json'}
     
     try:
         response = requests.post(backend_url, json=articles, headers=headers)
         response.raise_for_status()
+        print(articles)
         print(f"Data sent successfully. Status code: {response.status_code}")
     except requests.RequestException as e:
         print(f"Failed to send data to backend: {e}")

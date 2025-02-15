@@ -5,7 +5,8 @@ client = OpenAI(api_key=os.getenv('TEST_OPENAI_API_KEY'))
 
 def generate_summary(article_content, max_tokens=150, test=True):
     if test:
-        summary_points = [point.strip().lstrip('- ') for point in ['- Test Summary 1', '- Test Summary 2', '- Test Summary 3']]
+        test_summary = ['- Test Summary 1', '- Test Summary 2', '- Test Summary 3']
+        summary_points = [point.strip().lstrip('- ') for point in test_summary]
     else:
         response = client.chat.completions.create(
             model="gpt-4o-mini",
