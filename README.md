@@ -68,6 +68,8 @@ AI Powered News Article summarizer
 ### House Keeping
 - [x] Standard Autodeploy script
 - [x] start / end switch for mongoDB and backend
+- [x] start / end switch for frontend
+- [ ] Consolidate scripts and clean up package.json scripts
 
 #### Feedback
 - [ ] Bullet Points list (-)
