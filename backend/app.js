@@ -64,6 +64,7 @@ app.get("/articles", (req, res) => {
 });
 
 // MongoDB Routes
+// Write new or overwrite based on the URL
 app.post("/mongo-receive-articles", async (req, res) => {
   console.log("Received articles for MongoDB:", req.body);
   const newArticles = req.body;
@@ -89,7 +90,9 @@ app.post("/mongo-receive-articles", async (req, res) => {
 
 app.get("/mongo-articles", async (req, res) => {
   try {
-    const mongoArticles = await Article.find();
+    const mongoArticles = await Article.find()
+      .sort({ publishDate: -1 })
+      .limit(5);
     console.log("Fetched articles from MongoDB:", mongoArticles);
     res.json(mongoArticles);
   } catch (error) {
@@ -97,6 +100,7 @@ app.get("/mongo-articles", async (req, res) => {
     res.status(500).json({ message: "Error fetching articles from MongoDB" });
   }
 });
+
 
 // Test route for MongoDB -> Update to Post later
 app.get("/test-mongo", async (req, res) => {

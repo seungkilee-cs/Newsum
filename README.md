@@ -39,7 +39,8 @@ AI Powered News Article summarizer
 - [x] Receive article data from Python Scraper
     - [x] Write the data to MongoDB schema
 - [x] Send article data to React Frontend for display
-    - [ ] Update the data posting to pull from DB
+    - [x] Update the data posting to pull from DB
+    - [ ] Separate the scrapper logic from update backend logic
     - [ ] Update the url db to modular pointing
 - [x] Save the article data to MongoDB
 
@@ -51,6 +52,7 @@ AI Powered News Article summarizer
 
 - [x] Receive article content from scraper to make API call to LLM text summarizer to produce three bullet point summaries
 - [x] Send bullet point summaries to scraper to construct object to send to backend
+- [ ] Cache check logic, to see if the url already exists in the mongoDB so it doesn't call API unnecessarily.
 
 ### Frontend Module
 - Articles summarized and available for quick skimming with the bullet point summaries.

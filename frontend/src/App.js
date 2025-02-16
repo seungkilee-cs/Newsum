@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import GridView from './GridView';
-import CarouselView from './CarouselView';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import GridView from "./GridView";
+import CarouselView from "./CarouselView";
+import "./App.css";
+
+const test = true;
 
 function App() {
   const [articles, setArticles] = useState([]);
@@ -11,10 +13,16 @@ function App() {
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const response = await axios.get('http://localhost:5001/articles');
+        let articleEndpoint = "";
+        if (test) {
+          articleEndpoint = "http://localhost:5001/mongo-articles";
+        } else {
+          articleEndpoint = "http://localhost:5001/articles";
+        }
+        const response = await axios.get(articleEndpoint);
         setArticles(response.data);
       } catch (error) {
-        console.error('Error fetching articles:', error);
+        console.error("Error fetching articles:", error);
       }
     };
 

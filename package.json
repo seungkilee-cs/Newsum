@@ -4,9 +4,12 @@
   "description": "AI Powered News Article summarizer",
   "main": "index.js",
   "scripts": {
-    "start:backend": "cd backend && npm start",
+    "start:backend": "bash start-backend.sh",
     "start:scraper": "cd scraper && source venv/bin/activate && python3 scraper.py",
     "start:frontend": "cd frontend && yarn start",
+    "end:backend": "bash end-backend.sh",
+    "end:frontend": "echo 'Not Implemented'",
+    "end:scraper": "cd scraper && deactivate",
     "install:backend": "cd backend && npm install",
     "install:frontend": "cd frontend && yarn"
   },

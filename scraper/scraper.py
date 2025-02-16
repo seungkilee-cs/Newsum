@@ -7,9 +7,11 @@ import json
 from datetime import datetime
 
 
-# DEBUG = True
 DEBUG = False
+# Basically API call flag. If not TEST, call LLM API. Else, use test data. -> Prob should make a separate flag for this. I'm also using this to test the url uid for MongoDB
 TEST = True
+# Clean this up later
+MONGOTEST = False
 MONGO = True
 
 # Use the constants directly:
@@ -54,6 +56,10 @@ def scrape_article(url):
     article_content = extract_article_text(soup)
 
     article_summary = generate_summary(article_content=article_content, test=TEST)
+
+    # Testing if 
+    if MONGOTEST:
+        url = url + "_test"
 
     if MONGO:
         return {
