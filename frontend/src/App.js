@@ -1,52 +1,56 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import GridView from "./GridView";
 import CarouselView from "./CarouselView";
+import Site from "./Site";
 import "./App.css";
 
 const test = true;
 
 function App() {
   const [articles, setArticles] = useState([]);
-  const [isCarouselView, setIsCarouselView] = useState(true);
+  const [view, setView] = useState('site');
+  const [selectedSite, setSelectedSite] = useState(null);
 
   useEffect(() => {
-    const fetchArticles = async () => {
-      try {
-        let articleEndpoint = "";
-        if (test) {
-          articleEndpoint = "http://localhost:5001/mongo-articles";
-        } else {
-          articleEndpoint = "http://localhost:5001/articles";
-        }
-        const response = await axios.get(articleEndpoint);
-        setArticles(response.data);
-      } catch (error) {
-        console.error("Error fetching articles:", error);
+    if (selectedSite) {
+      fetchArticles();
+    }
+  }, [selectedSite]);
+
+  const fetchArticles = async () => {
+    try {
+      let articleEndpoint = "";
+      if (test) {
+        articleEndpoint = "http://localhost:5001/mongo-articles";
+      } else {
+        articleEndpoint = "http://localhost:5001/articles";
       }
-    };
+      const response = await axios.get(articleEndpoint);
+      setArticles(response.data);
+    } catch (error) {
+      console.error("Error fetching articles:", error);
+    }
+  };
 
-    fetchArticles();
-  }, []);
-
-  const toggleView = () => {
-    setIsCarouselView(!isCarouselView);
+  const handleSiteSelect = (site) => {
+    setSelectedSite(site);
+    setView('carousel');
   };
 
   return (
     <div className="app">
       <header className="header">
         <h1>News Summarizer</h1>
-        {/* <button onClick={toggleView} className="view-toggle-btn">
-          {isCarouselView ? 'Grid View' : 'Carousel View'}
-        </button> */}
+        {view !== 'site' && (
+          <button onClick={() => setView('site')} className="view-toggle-btn">
+            Change Site
+          </button>
+        )}
       </header>
-      {articles.length > 0 ? (
-        isCarouselView ? (
-          <CarouselView articles={articles} />
-        ) : (
-          <GridView articles={articles} />
-        )
+      {view === 'site' ? (
+        <Site onSiteSelect={handleSiteSelect} />
+      ) : articles.length > 0 ? (
+        <CarouselView articles={articles} />
       ) : (
         <p>Loading articles...</p>
       )}

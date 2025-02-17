@@ -60,10 +60,13 @@ AI Powered News Article summarizer
 
 - [x] Receive data from node js backend to display the article list view showing summaries and meta data
 - [x] Link back to original Article
-- [ ] Display img of the article
 - [x] Display the trending articles
 - [x] Carousel vs Grid vs Card View for mobile adaptation
 - [x] Click into each article to links to the original article
+
+- [ ] Display img of the article
+- [x] Make site layout
+- [ ] Have site selection call data update API
 
 ### House Keeping
 - [x] Standard Autodeploy script
