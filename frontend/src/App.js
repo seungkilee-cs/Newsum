@@ -3,8 +3,10 @@ import axios from "axios";
 import CarouselView from "./CarouselView";
 import Site from "./Site";
 import "./App.css";
+import mockArticles from "./_test/mockData";
 
 const isStaging = process.env.REACT_APP_ENVIRONMENT === 'staging';
+// const isStaging = true;
 // const test = !isStaging && process.env.NODE_ENV !== 'production';
 const test = true;
 
@@ -22,7 +24,6 @@ function App() {
   const fetchArticles = async () => {
     try {
       if (isStaging) {
-        const { default: mockArticles } = await import('./mockData');
         setArticles(mockArticles);
       } else {
         let articleEndpoint = "";
