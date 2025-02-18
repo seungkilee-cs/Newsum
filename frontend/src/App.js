@@ -4,6 +4,8 @@ import CarouselView from "./CarouselView";
 import Site from "./Site";
 import "./App.css";
 
+const isStaging = process.env.REACT_APP_ENVIRONMENT === 'staging';
+// const test = !isStaging && process.env.NODE_ENV !== 'production';
 const test = true;
 
 function App() {
@@ -19,14 +21,19 @@ function App() {
 
   const fetchArticles = async () => {
     try {
-      let articleEndpoint = "";
-      if (test) {
-        articleEndpoint = "http://localhost:5001/mongo-articles";
+      if (isStaging) {
+        const { default: mockArticles } = await import('./mockData');
+        setArticles(mockArticles);
       } else {
-        articleEndpoint = "http://localhost:5001/articles";
+        let articleEndpoint = "";
+        if (test) {
+          articleEndpoint = "http://localhost:5001/mongo-articles";
+        } else {
+          articleEndpoint = "http://localhost:5001/articles";
+        }
+        const response = await axios.get(articleEndpoint);
+        setArticles(response.data);
       }
-      const response = await axios.get(articleEndpoint);
-      setArticles(response.data);
     } catch (error) {
       console.error("Error fetching articles:", error);
     }

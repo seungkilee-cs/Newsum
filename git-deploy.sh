@@ -24,7 +24,9 @@ if [ -d .git ] || git rev-parse --git-dir > /dev/null 2>&1; then
     fi
 
     # OPTIONAL - Run custom script
-
+    cd frontend
+    npm run deploy:stage
+    cd ..
 
     # Add all changes to git
     git add .
