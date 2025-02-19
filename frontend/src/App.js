@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import CarouselView from "./CarouselView";
 import Site from "./Site";
@@ -6,25 +6,19 @@ import "./App.css";
 import mockArticles from "./_test/mockData";
 
 const isStaging = process.env.REACT_APP_ENVIRONMENT === 'staging';
-// const isStaging = true;
-// const test = !isStaging && process.env.NODE_ENV !== 'production';
 const test = true;
 
 function App() {
   const [articles, setArticles] = useState([]);
   const [view, setView] = useState('site');
-  const [selectedSite, setSelectedSite] = useState(null);
+  const [selectedSite, setSelectedSite] = useState({url: "https://www.americanlibertymedia.com"});
 
-  useEffect(() => {
-    if (selectedSite) {
-      fetchArticles();
-    }
-  }, [selectedSite]);
-
-  const fetchArticles = async () => {
+  const fetchArticles = useCallback(async () => {
     try {
+      let fetchedArticles = [];
+
       if (isStaging) {
-        setArticles(mockArticles);
+        fetchedArticles = mockArticles;
       } else {
         let articleEndpoint = "";
         if (test) {
@@ -33,12 +27,22 @@ function App() {
           articleEndpoint = "http://localhost:5001/articles";
         }
         const response = await axios.get(articleEndpoint);
-        setArticles(response.data);
+        fetchedArticles = response.data;
       }
+
+      // Filter articles based on the selected site
+      const filteredArticles = fetchedArticles.filter(
+        (article) => article.site === selectedSite.url
+      );
+      setArticles(filteredArticles);
     } catch (error) {
       console.error("Error fetching articles:", error);
     }
-  };
+  }, [selectedSite]);
+
+  useEffect(() => {
+    fetchArticles();
+  }, [fetchArticles]);
 
   const handleSiteSelect = (site) => {
     setSelectedSite(site);

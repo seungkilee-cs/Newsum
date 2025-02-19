@@ -8,7 +8,8 @@ const articleSchema = new Schema({
   content: [String],
   summary: [String],
   imageUrl: String,
-  url: String
+  url: String,
+  site: String
 });
 
 

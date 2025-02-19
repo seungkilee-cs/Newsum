@@ -50,6 +50,7 @@ def scrape_article(url):
     # Extract author
     author_span = soup.find('span', class_='tQ0Q1A user-name dlINDG')
     author = author_span['title'] if author_span else 'Author not found'
+    site = 'https://www.americanlibertymedia.com'
 
     # Extract article content
     # Join the text elements
@@ -69,6 +70,7 @@ def scrape_article(url):
             'publishDate': date,
             'content': article_content.split('\n') if isinstance(article_content, str) else article_content,
             'summary': article_summary if isinstance(article_summary, list) else [article_summary],
+            'site': site,
             'imageUrl': 'test.url'  # Add this field, even if empty
         }
 
@@ -79,7 +81,8 @@ def scrape_article(url):
             'author': author,
             'date': date,
             'content': article_content,
-            'summary': article_summary
+            'summary': article_summary,
+            'site': site
         }
 
 def send_to_backend(articles):
