@@ -5,13 +5,15 @@ import Site from "./Site";
 import "./App.css";
 import mockArticles from "./_test/mockData";
 
-const isStaging = process.env.REACT_APP_ENVIRONMENT === 'staging';
+const isStaging = process.env.REACT_APP_ENVIRONMENT === "staging";
 const test = true;
 
 function App() {
   const [articles, setArticles] = useState([]);
-  const [view, setView] = useState('site');
-  const [selectedSite, setSelectedSite] = useState({url: "https://www.americanlibertymedia.com"});
+  const [view, setView] = useState("site");
+  const [selectedSite, setSelectedSite] = useState({
+    url: "https://www.americanlibertymedia.com",
+  });
 
   const fetchArticles = useCallback(async () => {
     try {
@@ -46,20 +48,20 @@ function App() {
 
   const handleSiteSelect = (site) => {
     setSelectedSite(site);
-    setView('carousel');
+    setView("carousel");
   };
 
   return (
     <div className="app">
       <header className="header">
         <h1>News Summarizer</h1>
-        {view !== 'site' && (
-          <button onClick={() => setView('site')} className="view-toggle-btn">
+        {view !== "site" && (
+          <button onClick={() => setView("site")} className="view-toggle-btn">
             Change Site
           </button>
         )}
       </header>
-      {view === 'site' ? (
+      {view === "site" ? (
         <Site onSiteSelect={handleSiteSelect} />
       ) : articles.length > 0 ? (
         <CarouselView articles={articles} />
