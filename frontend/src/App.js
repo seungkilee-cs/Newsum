@@ -11,11 +11,11 @@ const test = true;
 function App() {
   const [articles, setArticles] = useState([]);
   const [view, setView] = useState("site");
-  const [selectedSite, setSelectedSite] = useState({
-    url: "https://www.americanlibertymedia.com",
-  });
+  const [selectedSite, setSelectedSite] = useState(null);
 
   const fetchArticles = useCallback(async () => {
+    if (!selectedSite) return;
+
     try {
       let fetchedArticles = [];
 
@@ -43,8 +43,10 @@ function App() {
   }, [selectedSite]);
 
   useEffect(() => {
-    fetchArticles();
-  }, [fetchArticles]);
+    if (selectedSite) {
+      fetchArticles();
+    }
+  }, [selectedSite, fetchArticles]);
 
   const handleSiteSelect = (site) => {
     setSelectedSite(site);
