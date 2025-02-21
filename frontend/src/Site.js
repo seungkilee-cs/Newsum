@@ -13,7 +13,7 @@ const Site = ({ onSiteSelect }) => {
       url: "https://www.americanlibertymedia.com",
       image: ALMImage,
     },
-    { name: "CNN", url: "https://cnn.com", image: CNNImage },
+    { name: "CNN", url: "https://www.cnn.com", image: CNNImage },
   ];
 
   const handleSiteSelect = (site) => {

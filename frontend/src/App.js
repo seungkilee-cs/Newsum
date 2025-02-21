@@ -36,8 +36,6 @@ function App() {
       const filteredArticles = fetchedArticles.filter(
         (article) => article.site === selectedSite.url
       );
-      console.log(selectedSite)
-      console.log(fetchedArticles)
       setArticles(filteredArticles);
     } catch (error) {
       console.error("Error fetching articles:", error);
