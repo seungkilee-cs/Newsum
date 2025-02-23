@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from config import SAMPLE_URL_PATH, SAMPLE_NEWS_SITE_URL
 from summarizer import generate_summary
+from urllib.parse import urlparse
 
 import json
 from datetime import datetime
@@ -17,6 +18,11 @@ MONGO = True
 # Use the constants directly:
 sample_url_path = SAMPLE_URL_PATH
 sample_news_site_url = SAMPLE_NEWS_SITE_URL
+
+# URL Parsing for site
+def get_base_url(url):
+    parsed_url = urlparse(url)
+    return f"{parsed_url.scheme}://{parsed_url.netloc}"
 
 # extract article from the article post
 def extract_article_text(soup):
@@ -50,7 +56,8 @@ def scrape_article(url):
     # Extract author
     author_span = soup.find('span', class_='tQ0Q1A user-name dlINDG')
     author = author_span['title'] if author_span else 'Author not found'
-    site = 'https://www.americanlibertymedia.com'
+    # site = 'https://www.americanlibertymedia.com'
+    site = get_base_url(url)
 
     # Extract article content
     # Join the text elements

@@ -4,7 +4,7 @@ import CarouselView from "./CarouselView";
 import Site from "./Site";
 import "./App.css";
 import mockArticles from "./_test/mockData";
-import normalizeUrl from 'normalize-url';
+import normalizeUrl from "normalize-url";
 
 const isStaging = process.env.REACT_APP_ENVIRONMENT === "staging";
 const test = true;
@@ -35,7 +35,8 @@ function App() {
 
       // Filter articles based on the selected site
       const filteredArticles = fetchedArticles.filter(
-        (article) => normalizeUrl(article.site) === normalizeUrl(selectedSite.url)
+        (article) =>
+          normalizeUrl(article.site) === normalizeUrl(selectedSite.url)
       );
       setArticles(filteredArticles);
     } catch (error) {
