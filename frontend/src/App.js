@@ -18,21 +18,24 @@ function App() {
   const fetchArticlesForSite = useCallback(async (site) => {
     try {
       let fetchedArticles = [];
-      let articleEndpoint =
-        isStaging || test
-          ? "http://localhost:5001/mongo-articles"
-          : "http://localhost:5001/articles";
-
-      const response = await axios.get(articleEndpoint, {
-        params: { site: normalizeUrl(site.url) },
-      });
+      
       if (isStaging) {
         fetchedArticles = mockArticles;
       } else {
+        let articleEndpoint = test
+          ? "http://localhost:5001/mongo-articles"
+          : "http://localhost:5001/articles";
+
+        const response = await axios.get(articleEndpoint);
         fetchedArticles = response.data;
       }
 
-      setArticles(fetchedArticles);
+      // Filter articles based on the selected site
+      const filteredArticles = fetchedArticles.filter(
+        (article) => normalizeUrl(article.site) === normalizeUrl(site.url)
+      );
+
+      setArticles(filteredArticles);
     } catch (error) {
       console.error("Error fetching articles:", error);
       setArticles([]);
