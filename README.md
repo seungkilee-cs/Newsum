@@ -72,6 +72,8 @@ AI Powered News Article summarizer
 - [x] Standard Autodeploy script
 - [x] start / end switch for mongoDB and backend
 - [x] start / end switch for frontend
+
+- [ ] Need to check on the staging vs test article fetching
 - [ ] Consolidate scripts and clean up package.json scripts
 
 #### Feedback
