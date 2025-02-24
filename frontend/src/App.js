@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useCallback } from "react";
+// App.js
+import React, { useState, useCallback } from "react";
 import axios from "axios";
 import CarouselView from "./CarouselView";
 import Site from "./Site";
 import "./App.css";
-import mockArticles from "./_test/mockData";
 import normalizeUrl from "normalize-url";
+import mockArticles from "./_test/mockData";
 
 const isStaging = process.env.REACT_APP_ENVIRONMENT === "staging";
 const test = true;
@@ -14,44 +15,33 @@ function App() {
   const [view, setView] = useState("site");
   const [selectedSite, setSelectedSite] = useState(null);
 
-  const fetchArticles = useCallback(async () => {
-    if (!selectedSite) return;
-
+  const fetchArticlesForSite = useCallback(async (site) => {
     try {
       let fetchedArticles = [];
+      let articleEndpoint =
+        isStaging || test
+          ? "http://localhost:5001/mongo-articles"
+          : "http://localhost:5001/articles";
 
+      const response = await axios.get(articleEndpoint, {
+        params: { site: normalizeUrl(site.url) },
+      });
       if (isStaging) {
         fetchedArticles = mockArticles;
       } else {
-        let articleEndpoint = "";
-        if (test) {
-          articleEndpoint = "http://localhost:5001/mongo-articles";
-        } else {
-          articleEndpoint = "http://localhost:5001/articles";
-        }
-        const response = await axios.get(articleEndpoint);
         fetchedArticles = response.data;
       }
 
-      // Filter articles based on the selected site
-      const filteredArticles = fetchedArticles.filter(
-        (article) =>
-          normalizeUrl(article.site) === normalizeUrl(selectedSite.url)
-      );
-      setArticles(filteredArticles);
+      setArticles(fetchedArticles);
     } catch (error) {
       console.error("Error fetching articles:", error);
+      setArticles([]);
     }
-  }, [selectedSite]);
-
-  useEffect(() => {
-    if (selectedSite) {
-      fetchArticles();
-    }
-  }, [selectedSite, fetchArticles]);
+  }, []);
 
   const handleSiteSelect = (site) => {
     setSelectedSite(site);
+    fetchArticlesForSite(site);
     setView("carousel");
   };
 
@@ -66,7 +56,10 @@ function App() {
         )}
       </header>
       {view === "site" ? (
-        <Site onSiteSelect={handleSiteSelect} />
+        <Site
+          onSiteSelect={handleSiteSelect}
+          fetchArticlesForSite={fetchArticlesForSite}
+        />
       ) : articles.length > 0 ? (
         <CarouselView articles={articles} />
       ) : (

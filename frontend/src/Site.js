@@ -4,7 +4,7 @@ import "./Site.css";
 import ALMImage from "./assets/ALM.avif";
 import CNNImage from "./assets/CNN.svg";
 
-const Site = ({ onSiteSelect }) => {
+const Site = ({ onSiteSelect, fetchArticlesForSite }) => {
   const [selectedSite, setSelectedSite] = useState(null);
 
   const sites = [
@@ -19,6 +19,7 @@ const Site = ({ onSiteSelect }) => {
   const handleSiteSelect = (site) => {
     setSelectedSite(site);
     onSiteSelect(site);
+    fetchArticlesForSite(site);
   };
 
   return (
@@ -35,7 +36,6 @@ const Site = ({ onSiteSelect }) => {
               className="site-image"
               style={{ backgroundImage: `url(${site.image})` }}
             ></div>
-
             <div className="site-info">
               <h3>{site.name}</h3>
               <a

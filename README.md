@@ -41,7 +41,7 @@ AI Powered News Article summarizer
 - [x] Send article data to React Frontend for display
     - [x] Update the data posting to pull from DB
     - [ ] Separate the scrapper logic from update backend logic
-    - [ ] Update the url db to modular pointing
+    - [x] Update the url db to modular pointing
 - [x] Save the article data to MongoDB
 
 - [ ] Server makes a once a day "scrape" and API call, save the data, and hosts it as the client connects to the app.
@@ -75,8 +75,8 @@ AI Powered News Article summarizer
 - [ ] Consolidate scripts and clean up package.json scripts
 
 #### Feedback
-- [ ] Bullet Points list (-)
+- [x] Bullet Points list (-)
+- [x] Headlines -> alt size / text wrap (currently cuts off with ...)
 
-- [ ] Headlines -> alt size / text wrap
 - [ ] Perhaps include a "detail" view? -> Expanded view with "Expand"
 - [ ] Visual -> Color Scheme (customize to specific news sites) -> ALM (R/W/B)
