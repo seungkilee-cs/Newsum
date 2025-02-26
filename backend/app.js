@@ -108,6 +108,7 @@ app.get("/test-mongo", async (req, res) => {
     const testArticle = await Article.create({
       title: "Test Article",
       url: "http://test.com",
+      site: "http://test.com",
       author: "Test Author",
       date: new Date(),
       content: "Test content",

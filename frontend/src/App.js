@@ -1,4 +1,3 @@
-// App.js
 import React, { useState, useCallback } from "react";
 import axios from "axios";
 import CarouselView from "./CarouselView";
@@ -15,32 +14,56 @@ function App() {
   const [view, setView] = useState("site");
   const [selectedSite, setSelectedSite] = useState(null);
 
-  const fetchArticlesForSite = useCallback(async (site) => {
-    try {
-      let fetchedArticles = [];
-      
-      if (isStaging) {
-        fetchedArticles = mockArticles;
-      } else {
-        let articleEndpoint = test
-          ? "http://localhost:5001/mongo-articles"
-          : "http://localhost:5001/articles";
+  const fetchArticlesForSite = useCallback(
+    async (site) => {
+      try {
+        let fetchedArticles = [];
 
-        const response = await axios.get(articleEndpoint);
-        fetchedArticles = response.data;
+        if (isStaging) {
+          console.log("Using mock data in staging environment");
+          fetchedArticles = mockArticles;
+        } else {
+          console.log("Fetching data from backend");
+          let articleEndpoint = test
+            ? "http://localhost:5001/mongo-articles"
+            : "http://localhost:5001/articles";
+
+          console.log(`Sending request to: ${articleEndpoint}`);
+          const response = await axios.get(articleEndpoint);
+          console.log("Response received:", response);
+
+          if (response.data && Array.isArray(response.data)) {
+            fetchedArticles = response.data;
+          } else {
+            console.error("Unexpected data format received:", response.data);
+            throw new Error("Unexpected data format");
+          }
+        }
+
+        console.log("Fetched articles:", fetchedArticles);
+
+        const normalizedSelectedSiteUrl = site?.url ? normalizeUrl(site.url) : null; // Normalize selected site URL
+
+        const filteredArticles = fetchedArticles.filter((article) => {
+          const normalizedArticleSite = article.site ? normalizeUrl(article.site) : null;
+
+          return normalizedArticleSite === normalizedSelectedSiteUrl;
+        });
+
+        console.log("Filtered articles:", filteredArticles);
+
+        setArticles(filteredArticles);
+      } catch (error) {
+        console.error("Error fetching articles:", error);
+        if (error.response) {
+          console.error("Response data:", error.response.data);
+          console.error("Response status:", error.response.status);
+        }
+        setArticles([]);
       }
-
-      // Filter articles based on the selected site
-      const filteredArticles = fetchedArticles.filter(
-        (article) => normalizeUrl(article.site) === normalizeUrl(site.url)
-      );
-
-      setArticles(filteredArticles);
-    } catch (error) {
-      console.error("Error fetching articles:", error);
-      setArticles([]);
-    }
-  }, []);
+    },
+    [] // Removed 'site' from useCallback dependencies
+  );
 
   const handleSiteSelect = (site) => {
     setSelectedSite(site);
@@ -73,3 +96,4 @@ function App() {
 }
 
 export default App;
+
