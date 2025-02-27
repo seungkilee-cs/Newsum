@@ -40,7 +40,7 @@ function App() {
           }
         }
 
-        console.log("Fetched articles:", fetchedArticles);
+        // console.log("Fetched articles:", fetchedArticles);
 
         const normalizedSelectedSiteUrl = site?.url ? normalizeUrl(site.url) : null; // Normalize selected site URL
 
@@ -50,7 +50,7 @@ function App() {
           return normalizedArticleSite === normalizedSelectedSiteUrl;
         });
 
-        console.log("Filtered articles:", filteredArticles);
+        // console.log("Filtered articles:", filteredArticles);
 
         setArticles(filteredArticles);
       } catch (error) {
