@@ -6,7 +6,7 @@ import "./App.css";
 import normalizeUrl from "normalize-url";
 import mockArticles from "./_test/mockData";
 
-const isStaging = process.env.REACT_APP_ENVIRONMENT === "staging";
+const isStaging = import.meta.env.VITE_APP_ENVIRONMENT === "staging";
 const test = true;
 
 function App() {
@@ -42,10 +42,14 @@ function App() {
 
         // console.log("Fetched articles:", fetchedArticles);
 
-        const normalizedSelectedSiteUrl = site?.url ? normalizeUrl(site.url) : null; // Normalize selected site URL
+        const normalizedSelectedSiteUrl = site?.url
+          ? normalizeUrl(site.url)
+          : null; // Normalize selected site URL
 
         const filteredArticles = fetchedArticles.filter((article) => {
-          const normalizedArticleSite = article.site ? normalizeUrl(article.site) : null;
+          const normalizedArticleSite = article.site
+            ? normalizeUrl(article.site)
+            : null;
 
           return normalizedArticleSite === normalizedSelectedSiteUrl;
         });
@@ -62,7 +66,7 @@ function App() {
         setArticles([]);
       }
     },
-    [] // Removed 'site' from useCallback dependencies
+    [], // Removed 'site' from useCallback dependencies
   );
 
   const handleSiteSelect = (site) => {
@@ -96,4 +100,3 @@ function App() {
 }
 
 export default App;
-
