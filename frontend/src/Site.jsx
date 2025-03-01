@@ -1,20 +1,21 @@
 // Site.js
 import React, { useState } from "react";
 import "./Site.css";
-import ALMImage from "./assets/ALM.avif";
-import CNNImage from "./assets/CNN.svg";
+import sites from "./data/siteData";
+// import ALMImage from "./assets/ALM.avif";
+// import CNNImage from "./assets/CNN.svg";
 
 const Site = ({ onSiteSelect, fetchArticlesForSite }) => {
   const [selectedSite, setSelectedSite] = useState(null);
 
-  const sites = [
-    {
-      name: "American Liberty Media",
-      url: "https://www.americanlibertymedia.com",
-      image: ALMImage,
-    },
-    { name: "CNN", url: "https://www.cnn.com", image: CNNImage },
-  ];
+  // const sites = [
+  //   {
+  //     name: "American Liberty Media",
+  //     url: "https://www.americanlibertymedia.com",
+  //     image: ALMImage,
+  //   },
+  //   { name: "CNN", url: "https://www.cnn.com", image: CNNImage },
+  // ];
 
   const handleSiteSelect = (site) => {
     setSelectedSite(site);
