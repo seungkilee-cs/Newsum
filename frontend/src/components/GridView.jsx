@@ -1,6 +1,6 @@
 // GridView.js
-import React from 'react';
-import './GridView.css';
+import React from "react";
+import "../styles/GridView.css";
 
 function GridView({ articles }) {
   return (
@@ -14,10 +14,19 @@ function GridView({ articles }) {
           <h2 className="article-title">{article.title}</h2>
           <ul className="article-summary">
             {article.summary.map((point, pointIndex) => (
-              <li key={pointIndex} className="summary-point">{point}</li>
+              <li key={pointIndex} className="summary-point">
+                {point}
+              </li>
             ))}
           </ul>
-          <a href={article.url} className="read-more" target="_blank" rel="noopener noreferrer">Read More</a>
+          <a
+            href={article.url}
+            className="read-more"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Read More
+          </a>
         </article>
       ))}
     </main>

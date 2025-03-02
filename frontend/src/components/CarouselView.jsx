@@ -4,7 +4,7 @@ import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/navigation";
 import { EffectCoverflow, Navigation } from "swiper/modules";
-import "./CarouselView.css";
+import "../styles/CarouselView.css";
 
 function CarouselView({ articles }) {
   return (

@@ -1,10 +1,10 @@
 import React, { useState, useCallback } from "react";
 import axios from "axios";
-import CarouselView from "./CarouselView";
-import Site from "./Site";
-import "./App.css";
+import CarouselView from "./components/CarouselView";
+import Site from "./components/Site";
+import "./styles/App.css";
 import normalizeUrl from "normalize-url";
-import mockArticles from "./_test/mockData";
+import mockArticles from "./data/mockData";
 
 const isStaging = import.meta.env.VITE_APP_ENVIRONMENT === "staging";
 const test = true;
