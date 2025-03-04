@@ -1,4 +1,3 @@
-// GridView.js
 import React from "react";
 import "../styles/GridView.css";
 

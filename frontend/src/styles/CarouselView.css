@@ -1,18 +1,17 @@
-/* CarouselView.css */
 .swiper {
     width: 100%;
     padding-top: 50px;
     padding-bottom: 50px;
-  }
-  
-  .swiper-slide {
+}
+
+.swiper-slide {
     background-position: center;
     background-size: cover;
     width: 300px;
     height: 400px; /* Increased height to accommodate all content */
-  }
-  
-  .carousel-card {
+}
+
+.carousel-card {
     background-color: #fff;
     border-radius: 12px;
     padding: 20px;
@@ -21,27 +20,28 @@
     display: flex;
     flex-direction: column;
     position: relative;
-  }
-  
-  .article-header {
+}
+
+.article-header {
     display: flex;
     align-items: center;
     margin-bottom: 15px;
-  }
-  
-  .article-meta {
+}
+
+.article-meta {
     display: flex;
     justify-content: space-between;
     font-size: 0.8rem;
     color: #666;
     margin-bottom: 10px;
-  }
-  
-  .article-author, .article-date {
-    font-style: italic;
-  }  
+}
 
-  .article-number {
+.article-author,
+.article-date {
+    font-style: italic;
+}
+
+.article-number {
     width: 30px;
     height: 30px;
     border-radius: 50%;
@@ -51,42 +51,42 @@
     font-weight: bold;
     font-size: 0.9rem;
     margin-right: 10px;
-  }
-  
-  .rank-1 .article-number {
+}
+
+.rank-1 .article-number {
     background-color: #ffd700;
     color: #000;
     font-size: 1.1rem;
-  }
-  
-  .rank-2 .article-number {
+}
+
+.rank-2 .article-number {
     background-color: #c0c0c0;
     color: #000;
     font-size: 1rem;
-  }
-  
-  .rank-3 .article-number {
+}
+
+.rank-3 .article-number {
     background-color: #cd7f32;
     color: #fff;
     font-size: 0.95rem;
-  }
-  
-  .rank-4 .article-number,
-  .rank-5 .article-number {
+}
+
+.rank-4 .article-number,
+.rank-5 .article-number {
     background-color: #3498db;
     color: #fff;
-  }
-  
-  .rank-6 .article-number,
-  .rank-7 .article-number,
-  .rank-8 .article-number,
-  .rank-9 .article-number,
-  .rank-10 .article-number {
+}
+
+.rank-6 .article-number,
+.rank-7 .article-number,
+.rank-8 .article-number,
+.rank-9 .article-number,
+.rank-10 .article-number {
     background-color: #95a5a6;
     color: #fff;
-  }
-  
-  .trending-tag {
+}
+
+.trending-tag {
     background-color: #e74c3c;
     color: #fff;
     padding: 3px 8px;
@@ -94,9 +94,9 @@
     font-size: 0.7rem;
     font-weight: bold;
     text-transform: uppercase;
-  }
-  
-  .article-title {
+}
+
+.article-title {
     font-size: 1.1rem;
     color: #2c3e50;
     margin-bottom: 15px;
@@ -104,40 +104,39 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-  }
-  
-  .article-summary {
+}
+
+.article-summary {
     list-style-type: none;
     margin-bottom: 20px;
     flex-grow: 1;
     overflow-y: auto;
     padding-left: 0;
-  }
-  
-  .summary-point {
+}
+
+.summary-point {
     font-size: 0.9rem;
     color: #555;
     margin-bottom: 8px;
     padding-left: 16px;
     position: relative;
     line-height: 1.4;
-  }
-  
-  .summary-point::before {
-    content: '•';
+}
+
+.summary-point::before {
+    content: "•";
     position: absolute;
     left: 0;
     color: #3498db;
-  }
-  
-  .carousel-card {
+}
+
+.carousel-card {
     display: flex;
     flex-direction: column;
     height: 100%;
-  }
-  
-  
-  .read-more {
+}
+
+.read-more {
     display: inline-block;
     padding: 6px 12px;
     background-color: #3498db;
@@ -147,18 +146,17 @@
     transition: background-color 0.3s ease;
     align-self: flex-start;
     font-size: 0.8rem;
-  }
-  
-  .read-more:hover {
+}
+
+.read-more:hover {
     background-color: #2980b9;
-  }
-  
-  .swiper-slide-active {
+}
+
+.swiper-slide-active {
     z-index: 1;
-  }
-  
-  .swiper-slide-prev,
-  .swiper-slide-next {
+}
+
+.swiper-slide-prev,
+.swiper-slide-next {
     filter: blur(3px);
-  }
-  
+}

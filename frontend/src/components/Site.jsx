@@ -1,4 +1,3 @@
-// Site.js
 import React, { useState } from "react";
 import "../styles/Site.css";
 import sites from "../data/siteData";

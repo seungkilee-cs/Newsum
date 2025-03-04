@@ -1,59 +1,60 @@
-/* Site.css */
 .site-selector {
     width: 100%;
     max-width: 1200px;
     margin: 50px auto;
     padding: 20px;
-  }
-  
-  .site-selector h2 {
+}
+
+.site-selector h2 {
     font-size: 1.5rem;
     color: #2c3e50;
     margin-bottom: 20px;
     text-align: center;
-  }
-  
-  .site-grid {
+}
+
+.site-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 20px;
-  }
-  
-  .site-card {
+}
+
+.site-card {
     background-color: #fff;
     border-radius: 12px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
     cursor: pointer;
-  }
-  
-  .site-card:hover {
+}
+
+.site-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-  }
-  
-  .site-card.selected {
+}
+
+.site-card.selected {
     border: 2px solid #3498db;
-  }
-  
-  .site-image {
+}
+
+.site-image {
     height: 150px;
     background-size: cover;
     background-position: center;
     background-color: #f0f0f0; /* Placeholder color for empty images */
-  }
-  
-  .site-info {
+}
+
+.site-info {
     padding: 15px;
-  }
-  
-  .site-info h3 {
+}
+
+.site-info h3 {
     margin: 0 0 10px 0;
     color: #2c3e50;
-  }
-  
-  .site-info a {
+}
+
+.site-info a {
     display: inline-block;
     padding: 5px 10px;
     background-color: #3498db;
@@ -62,15 +63,14 @@
     border-radius: 4px;
     font-size: 0.9rem;
     transition: background-color 0.3s ease;
-  }
-  
-  .site-info a:hover {
+}
+
+.site-info a:hover {
     background-color: #2980b9;
-  }
-  
-  @media (max-width: 768px) {
+}
+
+@media (max-width: 768px) {
     .site-grid {
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     }
-  }
-  
+}
