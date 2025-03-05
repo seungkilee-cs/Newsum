@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const articleSchema = require('./models/article.js');
+const articleSchema = require("./models/article.js");
 const siteSchema = require("./models/site.js");
 
 const express = require("express");
@@ -15,11 +15,13 @@ app.use(bodyParser.json());
 app.use(express.json());
 
 // MongoDB Connection
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/news_summarizer";
+const MONGODB_URI =
+  process.env.MONGODB_URI || "mongodb://localhost:27017/news_summarizer";
 
-mongoose.connect(MONGODB_URI)
+mongoose
+  .connect(MONGODB_URI)
   .then(() => console.log("Connected to MongoDB: " + MONGODB_URI))
-  .catch(err => console.error("MongoDB connection error:", err));
+  .catch((err) => console.error("MongoDB connection error:", err));
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
@@ -70,18 +72,20 @@ app.post("/mongo-receive-articles", async (req, res) => {
   const newArticles = req.body;
   try {
     for (let newArticle of newArticles) {
-      const result = await Article.findOneAndUpdate({ url: newArticle.url }, newArticle, {
-        upsert: true,
-        new: true,
-      });
+      const result = await Article.findOneAndUpdate(
+        { url: newArticle.url },
+        newArticle,
+        {
+          upsert: true,
+          new: true,
+        },
+      );
       console.log("Updated/Inserted article:", result);
     }
     console.log("Articles updated in MongoDB");
-    res
-      .status(200)
-      .json({
-        message: "Articles received and updated successfully in MongoDB",
-      });
+    res.status(200).json({
+      message: "Articles received and updated successfully in MongoDB",
+    });
   } catch (error) {
     console.error("Error updating articles in MongoDB:", error);
     res.status(500).json({ message: "Error updating articles in MongoDB" });
@@ -101,7 +105,6 @@ app.get("/mongo-articles", async (req, res) => {
   }
 });
 
-
 // Test route for MongoDB -> Update to Post later
 app.get("/test-mongo", async (req, res) => {
   try {
@@ -115,10 +118,51 @@ app.get("/test-mongo", async (req, res) => {
       summary: ["Test summary point 1", "Test summary point 2"],
     });
     console.log("Test article created:", testArticle);
-    res.status(200).json({ message: "Test article created successfully", article: testArticle });
+    res
+      .status(200)
+      .json({
+        message: "Test article created successfully",
+        article: testArticle,
+      });
   } catch (error) {
     console.error("Error creating test article:", error);
     res.status(500).json({ message: "Error creating test article" });
+  }
+});
+
+// Post new site data
+app.post("/mongo-sites", async (req, res) => {
+  console.log("Received site data for MongoDB:", req.body);
+  const newSite = req.body;
+  try {
+    const result = await Site.findOneAndUpdate(
+      { name: newSite.name },
+      newSite,
+      {
+        upsert: true,
+        new: true,
+      },
+    );
+    console.log("Updated/Inserted site:", result);
+    res.status(200).json({
+      message: "Site data received and updated successfully in MongoDB",
+      site: result,
+    });
+  } catch (error) {
+    console.error("Error updating site in MongoDB:", error);
+    res.status(500).json({ message: "Error updating site in MongoDB" });
+  }
+});
+
+// Get all sites
+app.get("/mongo-sites", async (req, res) => {
+  try {
+    const mongoSites = await Site.find();
+    console.log("Fetched sites from MongoDB:", mongoSites);
+    res.json(mongoSites);
+  } catch (error) {
+    console.error("Error fetching sites from MongoDB:", error);
+    res.status(500).json({ message: "Error fetching sites from MongoDB" });
   }
 });
 
