@@ -118,39 +118,13 @@ app.get("/test-mongo", async (req, res) => {
       summary: ["Test summary point 1", "Test summary point 2"],
     });
     console.log("Test article created:", testArticle);
-    res
-      .status(200)
-      .json({
-        message: "Test article created successfully",
-        article: testArticle,
-      });
+    res.status(200).json({
+      message: "Test article created successfully",
+      article: testArticle,
+    });
   } catch (error) {
     console.error("Error creating test article:", error);
     res.status(500).json({ message: "Error creating test article" });
-  }
-});
-
-// Post new site data
-app.post("/mongo-sites", async (req, res) => {
-  console.log("Received site data for MongoDB:", req.body);
-  const newSite = req.body;
-  try {
-    const result = await Site.findOneAndUpdate(
-      { name: newSite.name },
-      newSite,
-      {
-        upsert: true,
-        new: true,
-      },
-    );
-    console.log("Updated/Inserted site:", result);
-    res.status(200).json({
-      message: "Site data received and updated successfully in MongoDB",
-      site: result,
-    });
-  } catch (error) {
-    console.error("Error updating site in MongoDB:", error);
-    res.status(500).json({ message: "Error updating site in MongoDB" });
   }
 });
 
@@ -163,6 +137,32 @@ app.get("/mongo-sites", async (req, res) => {
   } catch (error) {
     console.error("Error fetching sites from MongoDB:", error);
     res.status(500).json({ message: "Error fetching sites from MongoDB" });
+  }
+});
+
+app.post("/mongo-sites", async (req, res) => {
+  const sites = req.body; // Expecting an array of site objects
+  try {
+    const results = [];
+    for (const site of sites) {
+      // Find existing site by name and update it, or insert a new one
+      const result = await Site.findOneAndUpdate(
+        { name: site.name },
+        { $set: { url: site.url, image: site.image } },
+        { upsert: true, new: true },
+      );
+      results.push(result);
+    }
+    console.log("Sites inserted/updated in MongoDB:", results);
+    res.status(200).json({
+      message: "Sites inserted/updated successfully in MongoDB",
+      results,
+    });
+  } catch (error) {
+    console.error("Error inserting/updating sites in MongoDB:", error);
+    res
+      .status(500)
+      .json({ message: "Error inserting/updating sites in MongoDB" });
   }
 });
 
