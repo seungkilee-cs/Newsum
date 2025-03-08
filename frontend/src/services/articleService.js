@@ -1,4 +1,3 @@
-// src/services/articleService.js
 import axios from "axios";
 import { isStaging, articleEndpoint } from "../constants/config";
 import mockArticles from "../data/mockData";
