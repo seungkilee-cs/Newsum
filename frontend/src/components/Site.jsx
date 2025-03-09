@@ -41,7 +41,13 @@ const Site = ({ onSiteSelect, fetchArticlesForSite }) => {
       <div className="site-grid">
         {sites.map((site, index) => {
           const imageUrl = `${import.meta.env.BASE_URL}${site.image}`;
-          console.log(`Site: ${site.name}, Image URL: $../assets${imageUrl}`); // Log each site's name and image URL
+          // console.log(
+          //   `Site: ${site.name},
+          //   Image URL: $../assets${imageUrl},
+          //   backgroundImage: url(${import.meta.env.BASE_URL}assets/${site.image}),
+          //   BASE_URL: ${import.meta.env.BASE_URL}
+          //   `,
+          // );
           return (
             <div
               key={site._id || index}
@@ -51,9 +57,10 @@ const Site = ({ onSiteSelect, fetchArticlesForSite }) => {
               <div
                 className="site-image"
                 style={{
-                  backgroundImage: `url(../assets${imageUrl})`,
+                  backgroundImage: `url(src/assets/${site.image})`,
                 }}
               ></div>
+
               <div className="site-info">
                 <h3>{site.name}</h3>
                 <a
