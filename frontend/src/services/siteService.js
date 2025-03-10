@@ -1,4 +1,3 @@
-// services/siteService.js
 import axios from "axios";
 import { isStaging, siteEndpoint } from "../constants/config";
 import mockSites from "../data/siteData";
