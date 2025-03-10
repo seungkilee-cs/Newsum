@@ -1,6 +1,7 @@
 import axios from "axios";
 import { isStaging, siteEndpoint } from "../constants/config";
-import mockSites from "../data/siteData";
+// import mockSites from "../data/siteData";
+import { sites } from "../data/siteData.js";
 
 export const fetchSites = async () => {
   try {
@@ -8,7 +9,7 @@ export const fetchSites = async () => {
 
     if (isStaging) {
       console.log("Using mock site data in staging environment");
-      fetchedSites = mockSites;
+      fetchedSites = sites;
     } else {
       console.log("Fetching site data from backend");
       console.log(`Sending request to: ${siteEndpoint}`);
