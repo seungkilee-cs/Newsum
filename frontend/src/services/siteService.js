@@ -10,6 +10,7 @@ export const fetchSites = async () => {
     if (isStaging) {
       console.log("Using mock site data in staging environment");
       fetchedSites = sites;
+      console.log("static sites:", fetchedSites);
     } else {
       console.log("Fetching site data from backend");
       console.log(`Sending request to: ${siteEndpoint}`);
