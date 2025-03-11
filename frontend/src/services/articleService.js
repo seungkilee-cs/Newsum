@@ -8,7 +8,7 @@ export const fetchArticles = async (site) => {
     let fetchedArticles = [];
 
     if (isStaging) {
-      console.log("Using mock data in staging environment");
+      console.log("Using mock articles in staging environment");
       fetchedArticles = mockArticles;
     } else {
       console.log("Fetching data from backend");
