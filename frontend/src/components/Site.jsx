@@ -57,7 +57,8 @@ const Site = ({ onSiteSelect, fetchArticlesForSite }) => {
               <div
                 className="site-image"
                 style={{
-                  backgroundImage: `url(src/assets/${site.image})`,
+                  backgroundImage: `url(${import.meta.env.BASE_URL}assets/${site.image})`,
+                  // backgroundImage: `url(src/assets/${site.image})`,
                 }}
               ></div>
 
