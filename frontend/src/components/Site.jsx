@@ -57,6 +57,7 @@ const Site = ({ onSiteSelect, fetchArticlesForSite }) => {
               <div
                 className="site-image"
                 style={{
+                  // Test on bite serve
                   backgroundImage: `url(${import.meta.env.BASE_URL}assets/${site.image})`,
                   // backgroundImage: `url(src/assets/${site.image})`,
                 }}
