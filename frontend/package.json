@@ -10,7 +10,6 @@
     "axios": "^1.7.9",
     "normalize-url": "^8.0.1",
     "react": "^19.0.0",
-    "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^19.0.0",
     "swiper": "^11.2.1",
     "web-vitals": "^2.1.0"
@@ -20,7 +19,7 @@
     "build": "vite build",
     "serve": "vite preview",
     "predeploy": "npm run build",
-    "deploy:stage": "VITE_APP_ENVIRONMENT=staging npm run build && gh-pages -d build"
+    "deploy:stage": "VITE_APP_ENVIRONMENT=staging npm run build && gh-pages -d dist"
   },
   "eslintConfig": {
     "extends": [

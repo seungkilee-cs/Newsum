@@ -25,7 +25,6 @@ if [ -d .git ] || git rev-parse --git-dir > /dev/null 2>&1; then
 
     # OPTIONAL - Run custom script
     cd frontend
-    VITE_APP_ENVIRONMENT=staging npm run build && gh-pages -d build
     npm run deploy:stage
     cd ..
 

@@ -2,7 +2,7 @@ export const sites = [
   {
     name: "American Liberty Media",
     url: "https://www.americanlibertymedia.com",
-    image: "../assets/ALM.avif",
+    image: "ALM.avif",
   },
   {
     name: "CNN",
