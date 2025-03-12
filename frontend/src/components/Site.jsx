@@ -48,6 +48,8 @@ const Site = ({ onSiteSelect, fetchArticlesForSite }) => {
           //   BASE_URL: ${import.meta.env.BASE_URL}
           //   `,
           // );
+          console.log(`${import.meta.env.BASE_URL}`);
+          console.log(site);
           return (
             <div
               key={site._id || index}
@@ -57,7 +59,7 @@ const Site = ({ onSiteSelect, fetchArticlesForSite }) => {
               <div
                 className="site-image"
                 style={{
-                  // Test on bite serve
+                  // Test on vite serve
                   backgroundImage: `url(${import.meta.env.BASE_URL}assets/${site.image})`,
                   // backgroundImage: `url(src/assets/${site.image})`,
                 }}
