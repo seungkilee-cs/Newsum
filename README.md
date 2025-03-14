@@ -52,7 +52,7 @@ AI Powered News Article summarizer
 
 - [x] Receive article content from scraper to make API call to LLM text summarizer to produce three bullet point summaries
 - [x] Send bullet point summaries to scraper to construct object to send to backend
-- [ ] Cache check logic, to see if the url already exists in the mongoDB so it doesn't call API unnecessarily.
+- [x] Cache check logic, to see if the url already exists in the mongoDB so it doesn't call API unnecessarily.
 
 ### Frontend Module
 - Articles summarized and available for quick skimming with the bullet point summaries.
@@ -66,7 +66,7 @@ AI Powered News Article summarizer
 
 - [ ] Display img of the article
 - [x] Make site layout
-- [ ] Have site selection call data update API
+- [x] Have site selection call data update API
 
 ### House Keeping
 - [x] Standard Autodeploy script
