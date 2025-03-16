@@ -1,6 +1,7 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
+const { Schema, model } = mongoose;
 
-const userPreferenceSchema = new mongoose.Schema(
+const userPreferenceSchema = new Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
@@ -19,6 +20,6 @@ const userPreferenceSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-const UserPreference = mongoose.model("UserPreference", userPreferenceSchema);
+const UserPreference = model("UserPreference", userPreferenceSchema);
 
-module.exports = UserPreference;
+export default UserPreference;

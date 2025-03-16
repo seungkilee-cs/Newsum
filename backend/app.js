@@ -1,15 +1,19 @@
-const mongoose = require("mongoose");
-const articleSchema = require("./models/article.js");
-const siteSchema = require("./models/site.js");
+import mongoose from "mongoose";
+import articleSchema from "./models/article.js";
+import siteSchema from "./models/site.js";
 
-const express = require("express");
-const cors = require("cors");
-const bodyParser = require("body-parser");
-require("dotenv").config();
+import express from "express";
+import cors from "cors";
+import bodyParser from "body-parser";
+import dotenv from "dotenv";
+
+// Load environment variables
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5001;
 
+// Middleware
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.json());
@@ -26,7 +30,7 @@ mongoose
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
-// Define Article Schema
+// Define Article and Site Models
 const Article = mongoose.model("Article", articleSchema);
 const Site = mongoose.model("Site", siteSchema);
 
@@ -46,6 +50,7 @@ app.get("/", (req, res) => {
 app.post("/receive-articles", (req, res) => {
   console.log("Received articles:", req.body);
   const newArticles = req.body;
+
   // Update existing articles or add new ones
   newArticles.forEach((newArticle) => {
     const index = articles.findIndex((a) => a.url === newArticle.url);
@@ -55,6 +60,7 @@ app.post("/receive-articles", (req, res) => {
       articles.push(newArticle); // Add new article
     }
   });
+
   console.log("Updated articles:", articles);
   res
     .status(200)
@@ -70,6 +76,7 @@ app.get("/articles", (req, res) => {
 app.post("/mongo-receive-articles", async (req, res) => {
   console.log("Received articles for MongoDB:", req.body);
   const newArticles = req.body;
+
   try {
     for (let newArticle of newArticles) {
       const result = await Article.findOneAndUpdate(
@@ -142,6 +149,7 @@ app.get("/mongo-sites", async (req, res) => {
 
 app.post("/mongo-sites", async (req, res) => {
   const sites = req.body; // Expecting an array of site objects
+
   try {
     const results = [];
     for (const site of sites) {
