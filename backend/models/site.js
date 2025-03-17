@@ -1,13 +1,13 @@
 import mongoose from "mongoose";
-import articleSchema from "./article.js";
-
 const { Schema } = mongoose;
 
 const siteSchema = new Schema({
   name: String,
   url: String,
   image: String,
-  articles: [articleSchema],
+  articles: [{ type: Schema.Types.ObjectId, ref: "Article" }], // Reference the Article model
 });
 
-export default siteSchema;
+// Create and export the Mongoose model
+const Site = mongoose.model("Site", siteSchema);
+export default Site;

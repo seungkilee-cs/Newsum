@@ -1,11 +1,9 @@
-import mongoose from "mongoose";
-import articleSchema from "./models/article.js";
-import siteSchema from "./models/site.js";
-
 import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
+import mongoose from "mongoose";
+import setupRoutes from "./routes/index.js";
 
 // Load environment variables
 dotenv.config();
@@ -30,149 +28,14 @@ mongoose
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
-// Define Article and Site Models
-const Article = mongoose.model("Article", articleSchema);
-const Site = mongoose.model("Site", siteSchema);
-
-let articles = [];
-
 // Middleware to log route calls
 app.use((req, res, next) => {
   console.log(`Route called: ${req.method} ${req.path}`);
   next();
 });
 
-// Legacy Routes
-app.get("/", (req, res) => {
-  res.send("Server is running");
-});
-
-app.post("/receive-articles", (req, res) => {
-  console.log("Received articles:", req.body);
-  const newArticles = req.body;
-
-  // Update existing articles or add new ones
-  newArticles.forEach((newArticle) => {
-    const index = articles.findIndex((a) => a.url === newArticle.url);
-    if (index !== -1) {
-      articles[index] = newArticle; // Update existing article
-    } else {
-      articles.push(newArticle); // Add new article
-    }
-  });
-
-  console.log("Updated articles:", articles);
-  res
-    .status(200)
-    .json({ message: "Articles received and updated successfully" });
-});
-
-app.get("/articles", (req, res) => {
-  res.json(articles);
-});
-
-// MongoDB Routes
-// Write new or overwrite based on the URL
-app.post("/mongo-receive-articles", async (req, res) => {
-  console.log("Received articles for MongoDB:", req.body);
-  const newArticles = req.body;
-
-  try {
-    for (let newArticle of newArticles) {
-      const result = await Article.findOneAndUpdate(
-        { url: newArticle.url },
-        newArticle,
-        {
-          upsert: true,
-          new: true,
-        },
-      );
-      console.log("Updated/Inserted article:", result);
-    }
-    console.log("Articles updated in MongoDB");
-    res.status(200).json({
-      message: "Articles received and updated successfully in MongoDB",
-    });
-  } catch (error) {
-    console.error("Error updating articles in MongoDB:", error);
-    res.status(500).json({ message: "Error updating articles in MongoDB" });
-  }
-});
-
-app.get("/mongo-articles", async (req, res) => {
-  try {
-    const mongoArticles = await Article.find()
-      .sort({ publishDate: -1 })
-      .limit(5);
-    console.log("Fetched articles from MongoDB:", mongoArticles);
-    res.json(mongoArticles);
-  } catch (error) {
-    console.error("Error fetching articles from MongoDB:", error);
-    res.status(500).json({ message: "Error fetching articles from MongoDB" });
-  }
-});
-
-// Test route for MongoDB -> Update to Post later
-app.get("/test-mongo", async (req, res) => {
-  try {
-    const testArticle = await Article.create({
-      title: "Test Article",
-      url: "http://test.com",
-      site: "http://test.com",
-      author: "Test Author",
-      date: new Date(),
-      content: "Test content",
-      summary: ["Test summary point 1", "Test summary point 2"],
-    });
-    console.log("Test article created:", testArticle);
-    res.status(200).json({
-      message: "Test article created successfully",
-      article: testArticle,
-    });
-  } catch (error) {
-    console.error("Error creating test article:", error);
-    res.status(500).json({ message: "Error creating test article" });
-  }
-});
-
-// Get all sites
-app.get("/mongo-sites", async (req, res) => {
-  try {
-    const mongoSites = await Site.find();
-    console.log("Fetched sites from MongoDB:", mongoSites);
-    res.json(mongoSites);
-  } catch (error) {
-    console.error("Error fetching sites from MongoDB:", error);
-    res.status(500).json({ message: "Error fetching sites from MongoDB" });
-  }
-});
-
-app.post("/mongo-sites", async (req, res) => {
-  const sites = req.body; // Expecting an array of site objects
-
-  try {
-    const results = [];
-    for (const site of sites) {
-      // Find existing site by name and update it, or insert a new one
-      const result = await Site.findOneAndUpdate(
-        { name: site.name },
-        { $set: { url: site.url, image: site.image } },
-        { upsert: true, new: true },
-      );
-      results.push(result);
-    }
-    console.log("Sites inserted/updated in MongoDB:", results);
-    res.status(200).json({
-      message: "Sites inserted/updated successfully in MongoDB",
-      results,
-    });
-  } catch (error) {
-    console.error("Error inserting/updating sites in MongoDB:", error);
-    res
-      .status(500)
-      .json({ message: "Error inserting/updating sites in MongoDB" });
-  }
-});
+// Setup routes
+setupRoutes(app);
 
 // Start server
 app.listen(PORT, () => {

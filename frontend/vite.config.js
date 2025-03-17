@@ -9,4 +9,9 @@ export default defineConfig({
       process.env.VITE_APP_ENVIRONMENT,
     ),
   },
+  server: {
+    proxy: {
+      "/api": "http://localhost:5001",
+    },
+  },
 });

@@ -12,4 +12,6 @@ const articleSchema = new Schema({
   site: String,
 });
 
-export default articleSchema;
+// Create and export the Mongoose model
+const Article = mongoose.model("Article", articleSchema);
+export default Article;
