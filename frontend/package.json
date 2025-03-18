@@ -11,13 +11,15 @@
     "normalize-url": "^8.0.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-router-dom": "^7.3.0",
     "swiper": "^11.2.1",
     "web-vitals": "^2.1.0"
   },
   "scripts": {
     "start": "vite",
     "build": "vite build",
-    "serve": "vite preview",
+    "build:stage": "VITE_APP_ENVIRONMENT=staging npm run build",
+    "preview": "vite preview",
     "predeploy": "npm run build",
     "deploy:stage": "VITE_APP_ENVIRONMENT=staging npm run build && gh-pages -d dist"
   },

@@ -1,33 +1,29 @@
 # AI-Powered News Summarizer: Features and Requirements
 
-## Currently Implemented Features
-
 ### 1. Site Selection
-- [ ] Display a list of predefined news sites (e.g., CNN, Fox News)
-- [ ] Allow users to select a specific news site
-- [ ] Trigger article fetching based on site selection
+- [x] Display a list of predefined news sites (e.g., CNN, Fox News)
+- [x] Allow users to select a specific news site
+- [x] Trigger article fetching based on site selection
 
 ### 2. Article Fetching
-- [ ] Implement API calls to backend for fetching articles
-- [ ] Create mock data for staging/testing environments
-- [ ] Handle errors and edge cases in fetching process
+- [x] Implement API calls to backend for fetching articles
+- [x] Create mock data for staging/testing environments
+- [x] Handle errors and edge cases in fetching process
 
 ### 3. Dynamic Filtering
-- [ ] Implement URL normalization for consistent site matching
-- [ ] Filter fetched articles based on selected site
-- [ ] Ensure filtered results are accurately displayed
+- [x] Implement URL normalization for consistent site matching
+- [x] Filter fetched articles based on selected site
+- [x] Ensure filtered results are accurately displayed
 
 ### 4. Carousel View
-- [ ] Design and implement a carousel component for article display
-- [ ] Ensure smooth navigation between articles in the carousel
-- [ ] Optimize carousel for different screen sizes and devices
+- [x] Design and implement a carousel component for article display
+- [x] Ensure smooth navigation between articles in the carousel
+- [x] Optimize carousel for different screen sizes and devices
 
 ### 5. Environment-Specific Behavior
-- [ ] Set up environment variables for staging and production
-- [ ] Implement logic to use mock data in staging
-- [ ] Ensure seamless switching between mock and live data
-
-## Suggested Features for Enhancement
+- [x] Set up environment variables for staging and production
+- [x] Implement logic to use mock data in staging
+- [x] Ensure seamless switching between mock and live data
 
 ### 6. Advanced Summarization Techniques
 - [ ] Integrate an NLP model for abstractive summarization (e.g., GPT, BERT)
@@ -40,7 +36,7 @@
 - [ ] Add visual indicators for newly updated articles
 
 ### 8. User Personalization
-- [ ] Develop a user profile system to store preferences
+- [x] Develop a user profile system to store preferences
 - [ ] Implement a recommendation algorithm based on reading history
 - [ ] Create UI for users to select and save preferred topics/sites
 

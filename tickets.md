@@ -71,10 +71,8 @@
 - [x] start / end switch for frontend
 
 - [x] Need to check on the staging vs test article fetching
+- [ ] Reorganize backend API calls and the target URL
 - [ ] Consolidate scripts and clean up package.json scripts
-
-- [ ] Add User by User Setting
-- [ ] Drag and Drop save of the orders
 
 #### Feedback
 - [x] Bullet Points list (-)
