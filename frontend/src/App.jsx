@@ -30,11 +30,11 @@ function App() {
   };
 
   return (
-    <Router basename="/Newsum">
+    <Router basename="/Newsum/">
       <div className="app">
         <Header />
         <Routes>
-          <Route path="/Newsum" element={<Navigate to="/Newsum/" replace />} />
+          <Route path="/Newsum/" />
 
           <Route
             path="/"

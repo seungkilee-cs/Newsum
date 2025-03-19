@@ -6,8 +6,11 @@ const Site = ({ sites, onSiteSelect }) => {
   const navigate = useNavigate();
 
   const handleSiteSelect = (site) => {
+    // Format the site name: convert to lowercase and replace spaces with hyphens
+    const formattedSiteName = site.name.toLowerCase().replace(/\s+/g, "-");
+    navigate(`/site/${encodeURIComponent(formattedSiteName)}`);
+    // navigate(`/site/${encodeURIComponent(site.name)}`);
     onSiteSelect(site);
-    navigate(`/site/${encodeURIComponent(site.name)}`);
   };
 
   if (!sites || sites.length === 0) return <div>Loading sites...</div>;
