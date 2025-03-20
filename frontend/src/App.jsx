@@ -3,7 +3,6 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Link,
   Navigate,
   useLocation,
   useNavigate,
@@ -15,7 +14,11 @@ import "./styles/App.css";
 
 function App() {
   const [sites, setSites] = useState([]);
-  const [selectedSite, setSelectedSite] = useState(null);
+  const [selectedSite, setSelectedSite] = useState(() => {
+    // Retrieve the selected site from localStorage on initial load
+    const storedSite = localStorage.getItem("selectedSite");
+    return storedSite ? JSON.parse(storedSite) : null;
+  });
 
   useEffect(() => {
     const loadSites = async () => {
@@ -27,6 +30,18 @@ function App() {
 
   const handleSiteSelect = (site) => {
     setSelectedSite(site);
+    localStorage.setItem("selectedSite", JSON.stringify(site)); // Persist the selected site in localStorage
+  };
+
+  const getSelectedSiteFromURL = (siteName) => {
+    if (!sites.length) return null;
+
+    // Find the site object that matches the normalized siteName
+    const normalizedSiteName = siteName.toLowerCase().replace(/-/g, " ");
+    return sites.find(
+      (site) =>
+        site.name.toLowerCase().replace(/\s+/g, " ") === normalizedSiteName,
+    );
   };
 
   return (
@@ -34,6 +49,7 @@ function App() {
       <div className="app">
         <Header />
         <Routes>
+          {/* Redirect to lowercase and hyphenated URLs */}
           <Route path="/Newsum/" />
 
           <Route
@@ -42,7 +58,12 @@ function App() {
           />
           <Route
             path="/site/:siteName"
-            element={<CarouselView site={selectedSite} />}
+            element={
+              <CarouselView
+                site={selectedSite}
+                getSelectedSiteFromURL={getSelectedSiteFromURL}
+              />
+            }
           />
         </Routes>
       </div>
