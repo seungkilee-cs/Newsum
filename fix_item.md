@@ -1,2 +1,6 @@
 - [ ] Favicon Fix
 - [ ] Authentication
+  - [ ] sign up
+    - [ ] password hash
+  - [ ] login
+    - [ ]
