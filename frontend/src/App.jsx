@@ -7,15 +7,17 @@ import {
   useLocation,
   useNavigate,
 } from "react-router-dom";
+import Home from "./components/Home";
+import Login from "./components/Login";
+import Register from "./components/Register";
 import Site from "./components/Site";
 import CarouselView from "./components/CarouselView";
-import { fetchSites } from "./services/siteService"; // Assume this exists
+import { fetchSites } from "./services/siteService";
 import "./styles/App.css";
 
 function App() {
   const [sites, setSites] = useState([]);
   const [selectedSite, setSelectedSite] = useState(() => {
-    // Retrieve the selected site from localStorage on initial load
     const storedSite = localStorage.getItem("selectedSite");
     return storedSite ? JSON.parse(storedSite) : null;
   });
@@ -30,13 +32,11 @@ function App() {
 
   const handleSiteSelect = (site) => {
     setSelectedSite(site);
-    localStorage.setItem("selectedSite", JSON.stringify(site)); // Persist the selected site in localStorage
+    localStorage.setItem("selectedSite", JSON.stringify(site));
   };
 
   const getSelectedSiteFromURL = (siteName) => {
     if (!sites.length) return null;
-
-    // Find the site object that matches the normalized siteName
     const normalizedSiteName = siteName.toLowerCase().replace(/-/g, " ");
     return sites.find(
       (site) =>
@@ -49,11 +49,11 @@ function App() {
       <div className="app">
         <Header />
         <Routes>
-          {/* Redirect to lowercase and hyphenated URLs */}
-          <Route path="/Newsum/" />
-
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           <Route
-            path="/"
+            path="/sites"
             element={<Site sites={sites} onSiteSelect={handleSiteSelect} />}
           />
           <Route
@@ -78,12 +78,12 @@ function Header() {
   const isInSiteView = location.pathname.startsWith("/site/");
 
   const handleChangeSite = () => {
-    navigate("/");
+    navigate("/sites");
   };
 
   return (
     <header className="header">
-      <h1>News Summarizer</h1>
+      <h1>NewSum</h1>
       {isInSiteView && (
         <nav>
           <button onClick={handleChangeSite} className="view-toggle-btn">
