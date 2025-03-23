@@ -2,7 +2,7 @@
 
 ## Frontend (React.js)
 ### Build
-- [ ] Login Screen: Allows users to enter credentials to access the app.
+- [x] Login Screen: Allows users to enter credentials to access the app.
 - [x] Registration Screen: Enables users to create new accounts.
 - [ ] Password Reset Screen: Provides a way for users to recover forgotten passwords.
 - [ ] User Profile Screen: Displays user information and allows editing.

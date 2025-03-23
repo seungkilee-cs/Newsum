@@ -6,10 +6,15 @@ function CreateAccount() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
     try {
       const response = await axios.post("/api/register", {
         username,
@@ -19,7 +24,7 @@ function CreateAccount() {
       console.log(response.data.message);
       // Handle successful registration (e.g., redirect to login page)
     } catch (error) {
-      setError(error.response.data.message || "Registration failed");
+      setError(error.response?.data?.message || "Registration failed");
     }
   };
 
@@ -49,9 +54,9 @@ function CreateAccount() {
           required
         />
         <input
-          type="confirm password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          type="password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
           placeholder="Confirm Password"
           required
         />
