@@ -8,6 +8,7 @@ function Home() {
       <nav>
         <Link to="/register">Register</Link>
         <Link to="/login">Login</Link>
+        <Link to="/password-reset">Password Reset</Link>
         <Link to="/sites">Continue without Account</Link>
       </nav>
     </div>

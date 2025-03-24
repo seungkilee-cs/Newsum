@@ -10,6 +10,7 @@ import {
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import PasswordReset from "./components/PasswordReset";
 import Site from "./components/Site";
 import CarouselView from "./components/CarouselView";
 import { fetchSites } from "./services/siteService";
@@ -50,8 +51,9 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/password-reset" element={<PasswordReset />} />
           <Route
             path="/sites"
             element={<Site sites={sites} onSiteSelect={handleSiteSelect} />}
