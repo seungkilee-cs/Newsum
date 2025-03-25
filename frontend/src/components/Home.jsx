@@ -9,6 +9,7 @@ function Home() {
         <Link to="/register">Register</Link>
         <Link to="/login">Login</Link>
         <Link to="/password-reset">Password Reset</Link>
+        {/* <Link to="/account-setting">Account Setting</Link> */}
         <Link to="/sites">Continue without Account</Link>
       </nav>
     </div>
