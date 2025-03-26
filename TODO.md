@@ -8,7 +8,13 @@
 - [x] Account Setting Screen: Displays user information and allows editing.
 - [ ] Personal Preferences Screen: Allows users to customize app settings.
 - [ ] Authentication Guard Component: Protects routes from unauthorized access.
-- [ ] Rearrange Homepage: Better UX for screen and link layout
+- [x] Rearrange Homepage: Better UX for screen and link layout
+
+### Overhaul
+- [ ] CSS structure overhaul
+- [ ] Color scheme change
+- [ ] Uniformity
+- [ ] Components for reused nav bars and persisted views
 
 ### Bug
 - [ ] Article Card Cutting off the text when font format changes
