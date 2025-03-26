@@ -5,7 +5,7 @@
 - [x] Login Screen: Allows users to enter credentials to access the app.
 - [x] Registration Screen: Enables users to create new accounts.
 - [x] Password Reset Screen: Provides a way for users to recover forgotten passwords.
-- [ ] User Profile Screen: Displays user information and allows editing.
+- [x] Account Setting Screen: Displays user information and allows editing.
 - [ ] Personal Preferences Screen: Allows users to customize app settings.
 - [ ] Authentication Guard Component: Protects routes from unauthorized access.
 - [ ] Rearrange Homepage: Better UX for screen and link layout

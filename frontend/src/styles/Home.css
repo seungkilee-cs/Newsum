@@ -1,0 +1,113 @@
+.home-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
+}
+
+.home-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.home-header h1 {
+    font-size: 3rem;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+.home-header p {
+    font-size: 1.2rem;
+    color: #7f8c8d;
+}
+
+.hero-section {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.hero-section h2 {
+    font-size: 2.5rem;
+    color: #2c3e50;
+    margin-bottom: 1rem;
+}
+
+.hero-section p {
+    font-size: 1.2rem;
+    color: #34495e;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.action-section {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 3rem;
+}
+
+.auth-actions,
+.guest-action {
+    background-color: #f8f9fa;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.auth-actions h3,
+.guest-action h3 {
+    font-size: 1.5rem;
+    color: #2c3e50;
+    margin-bottom: 1rem;
+}
+
+.btn {
+    display: inline-block;
+    padding: 0.8rem 1.5rem;
+    margin: 0.5rem;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #3498db;
+    color: white;
+}
+
+.btn-secondary {
+    background-color: #2ecc71;
+    color: white;
+}
+
+.btn-outline {
+    border: 2px solid #3498db;
+    color: #3498db;
+}
+
+.btn-text {
+    color: #7f8c8d;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.home-footer {
+    text-align: center;
+    color: #7f8c8d;
+    margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+    .action-section {
+        flex-direction: column;
+    }
+
+    .auth-actions,
+    .guest-action {
+        margin-bottom: 1rem;
+    }
+}

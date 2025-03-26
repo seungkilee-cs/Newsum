@@ -87,7 +87,7 @@ function Header() {
 
   return (
     <header className="header">
-      <h1>NewSum</h1>
+      {/* <h1>NewSum</h1> */}
       {isInSiteView && (
         <nav>
           <button onClick={handleChangeSite} className="view-toggle-btn">
