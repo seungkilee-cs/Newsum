@@ -22,9 +22,16 @@ html {
 }
 
 .header {
-    /* padding: 20px; */
-    /* background-color: #ffffff; */
-    /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+}
+
+.header nav {
+    display: flex;
+    justify-content: center;
+    width: 100%;
 }
 
 .main-content {
@@ -65,12 +72,12 @@ html {
 }
 
 .view-toggle-btn {
-    padding: 10px 20px;
+    padding: 1rem 2rem;
     font-size: 1rem;
     background-color: #3498db;
     color: #fff;
     border: none;
-    border-radius: 5px;
+    border-radius: 0.5rem;
     cursor: pointer;
     transition: all 0.3s ease;
 }

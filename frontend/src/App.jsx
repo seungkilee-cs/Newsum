@@ -90,7 +90,7 @@ function Header() {
       {isInSiteView && (
         <nav>
           <button onClick={handleChangeSite} className="view-toggle-btn">
-            Change Site
+            Change Sites
           </button>
         </nav>
       )}
