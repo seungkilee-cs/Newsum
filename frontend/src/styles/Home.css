@@ -11,13 +11,13 @@
 }
 
 .home-header h1 {
-    font-size: 3rem;
+    font-size: 2.5rem;
     color: #2c3e50;
     margin-bottom: 0.5rem;
 }
 
 .home-header p {
-    font-size: 1.2rem;
+    font-size: 1rem;
     color: #7f8c8d;
 }
 
@@ -27,13 +27,13 @@
 }
 
 .hero-section h2 {
-    font-size: 2.5rem;
+    font-size: 2rem;
     color: #2c3e50;
     margin-bottom: 1rem;
 }
 
 .hero-section p {
-    font-size: 1.2rem;
+    font-size: 1rem;
     color: #34495e;
     max-width: 600px;
     margin: 0 auto;
@@ -42,6 +42,7 @@
 .action-section {
     display: flex;
     justify-content: space-around;
+    gap: 2rem;
     margin-bottom: 3rem;
 }
 
@@ -49,14 +50,14 @@
 .guest-action {
     background-color: #f8f9fa;
     padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.4);
     text-align: center;
 }
 
 .auth-actions h3,
 .guest-action h3 {
-    font-size: 1.5rem;
+    font-size: 1.35rem;
     color: #2c3e50;
     margin-bottom: 1rem;
 }
@@ -65,7 +66,8 @@
     display: inline-block;
     padding: 0.8rem 1.5rem;
     margin: 0.5rem;
-    border-radius: 5px;
+    border-radius: 0.4rem;
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.2);
     text-decoration: none;
     font-weight: bold;
     transition: all 0.3s ease;

@@ -29,11 +29,11 @@ function Home() {
               Login
             </Link>
             <Link to="/password-reset" className="btn btn-text">
-              Forgot Password?
+              Reset Password
             </Link>
           </div>
           <div className="guest-action">
-            <h3>Explore Now</h3>
+            <h3>Explore Newsum</h3>
             <Link to="/sites" className="btn btn-outline">
               Continue as Guest
             </Link>
