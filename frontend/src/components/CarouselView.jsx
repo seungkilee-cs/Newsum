@@ -8,6 +8,7 @@ import { EffectCoverflow, Navigation } from "swiper/modules";
 import "../styles/CarouselView.css";
 import { fetchArticles } from "../services/articleService";
 import { debugLog, debugError } from "../utils/debugUtils";
+import { truncateStringAtWordBoundary } from "../utils/strUtils";
 
 function CarouselView({ site }) {
   const [articles, setArticles] = useState([]);
@@ -74,7 +75,7 @@ function CarouselView({ site }) {
               {index < 3 && <span className="trending-tag">Trending</span>}
             </div>
             <h2 className="article-title" title={article.title}>
-              {article.title}
+              {truncateStringAtWordBoundary(article.title, 35)}
             </h2>
             <div className="article-meta">
               <span className="article-author">{article.author}</span>
