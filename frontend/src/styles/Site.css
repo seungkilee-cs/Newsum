@@ -74,3 +74,30 @@
         grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     }
 }
+
+.home-btn {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.btn-home {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition:
+        background-color 0.3s ease,
+        transform 0.2s ease;
+}
+
+.btn-home:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+}
+
+.btn-home:active {
+    transform: translateY(0);
+}

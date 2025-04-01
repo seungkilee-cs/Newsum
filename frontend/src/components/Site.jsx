@@ -12,6 +12,9 @@ const Site = ({ sites, onSiteSelect }) => {
     // navigate(`/site/${encodeURIComponent(site.name)}`);
     onSiteSelect(site);
   };
+  const handleGoHome = () => {
+    navigate("/");
+  };
 
   if (!sites || sites.length === 0) return <div>Loading sites...</div>;
 
@@ -44,6 +47,11 @@ const Site = ({ sites, onSiteSelect }) => {
             </div>
           </div>
         ))}
+      </div>
+      <div className="home-btn">
+        <button onClick={handleGoHome} className="btn-home">
+          Go Back Home
+        </button>
       </div>
     </div>
   );
