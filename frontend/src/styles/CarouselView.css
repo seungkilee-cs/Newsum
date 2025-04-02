@@ -160,3 +160,69 @@
 .swiper-slide-next {
     filter: blur(3px);
 }
+
+.site-selector {
+  max-width: 100rem;
+  margin: 1 auto;
+  padding: 2rem;
+}
+
+.site-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 2.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.site-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.site-card:hover {
+  transform: translateY(-4px);
+}
+
+.site-image {
+  aspect-ratio: 16/9;
+  background-size: cover;
+  background-position: center;
+}
+
+.site-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem;
+  background-color: #fff;
+}
+
+.site-info h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #2c3e50;
+  word-break: break-word;
+  line-height: 1.3;
+  flex-grow: 1;
+}
+
+.site-info a {
+  margin-top: 1.5rem;
+  padding: 0.5rem 1rem;
+  background-color: #3498db;
+  color: #fff;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 0.5rem;
+  transition: background-color 0.2s ease;
+}
+
+.site-info a:hover {
+  background-color: #2980b9;
+}
+
