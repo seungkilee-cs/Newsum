@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../styles/Register.css"; // Import the CSS file
 
@@ -8,6 +9,11 @@ function CreateAccount() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
+
+  const handleGoHome = () => {
+    navigate("/");
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,6 +35,8 @@ function CreateAccount() {
   };
 
   return (
+    <div className="reigster-wrapper">
+      
     <div className="register-container">
       <form className="register-form" onSubmit={handleSubmit}>
         <h2>Create Account</h2>
@@ -63,6 +71,13 @@ function CreateAccount() {
         <button type="submit">Create Account</button>
         {error && <p className="error-message">{error}</p>}
       </form>
+    </div>
+
+      <div className="home-btn">
+        <button onClick={handleGoHome} className="btn-home">
+          Go Back Home
+        </button>
+      </div>
     </div>
   );
 }
