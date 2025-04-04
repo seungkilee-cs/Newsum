@@ -36,43 +36,41 @@ function CreateAccount() {
 
   return (
     <div className="reigster-wrapper">
-      
-    <div className="register-container">
-      <form className="register-form" onSubmit={handleSubmit}>
-        <h2>Create Account</h2>
-        <input
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          placeholder="Username"
-          required
-        />
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Email"
-          required
-        />
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password"
-          required
-        />
-        <input
-          type="password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          placeholder="Confirm Password"
-          required
-        />
-        <button type="submit">Create Account</button>
-        {error && <p className="error-message">{error}</p>}
-      </form>
-    </div>
-
+      <div className="register-container">
+        <form className="register-form" onSubmit={handleSubmit}>
+          <h2>Create Account</h2>
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Username"
+            required
+          />
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
+            required
+          />
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+            required
+          />
+          <input
+            type="password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            placeholder="Confirm Password"
+            required
+          />
+          <button type="submit">Create Account</button>
+          {error && <p className="error-message">{error}</p>}
+        </form>
+      </div>
       <div className="home-btn">
         <button onClick={handleGoHome} className="btn-home">
           Go Back Home
