@@ -1,32 +1,62 @@
 import express from "express";
 import cors from "cors";
-import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import session from "express-session";
 import setupRoutes from "./routes/index.js";
 
 // Load environment variables
 dotenv.config();
 
-const app = express();
+export const app = express();
 const PORT = process.env.PORT || 5001;
 
+const allowedOrigins = process.env.CLIENT_ORIGINS
+  ? process.env.CLIENT_ORIGINS.split(",").map((origin) => origin.trim()).filter(Boolean)
+  : ["http://localhost:5173"];
+
 // Middleware
-app.use(cors());
-app.use(bodyParser.json());
+app.use(
+  cors({
+    origin: allowedOrigins,
+    credentials: true,
+  }),
+);
 app.use(express.json());
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "change-me",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    },
+  }),
+);
 
 // MongoDB Connection
 const MONGODB_URI =
   process.env.MONGODB_URI || "mongodb://localhost:27017/news_summarizer";
 
-mongoose
-  .connect(MONGODB_URI)
-  .then(() => console.log("Connected to MongoDB: " + MONGODB_URI))
-  .catch((err) => console.error("MongoDB connection error:", err));
+export async function connectDB(uri = MONGODB_URI) {
+  if (!uri) {
+    throw new Error("MONGODB_URI is not defined");
+  }
 
-const db = mongoose.connection;
-db.on("error", console.error.bind(console, "MongoDB connection error:"));
+  if (mongoose.connection.readyState === 1) {
+    return mongoose.connection;
+  }
+
+  await mongoose.connect(uri);
+  console.log("Connected to MongoDB: " + uri);
+  return mongoose.connection;
+}
+
+mongoose.connection.on(
+  "error",
+  console.error.bind(console, "MongoDB connection error:"),
+);
 
 // Middleware to log route calls
 app.use((req, res, next) => {
@@ -38,6 +68,17 @@ app.use((req, res, next) => {
 setupRoutes(app);
 
 // Start server
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+if (process.env.NODE_ENV !== "test") {
+  connectDB(MONGODB_URI)
+    .then(() => {
+      app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+      });
+    })
+    .catch((error) => {
+      console.error("Failed to start server:", error);
+      process.exit(1);
+    });
+}
+
+export default app;

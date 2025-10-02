@@ -1,8 +1,14 @@
 import Site from "../models/site.js";
+import { sites as staticSites } from "../data/siteData.js";
 
 export const getSites = async (req, res) => {
   try {
     const sites = await Site.find();
+
+    if (!sites.length) {
+      return res.json(staticSites);
+    }
+
     res.json(sites);
   } catch (error) {
     console.error("Error fetching sites:", error);
@@ -11,7 +17,7 @@ export const getSites = async (req, res) => {
 };
 
 export const createOrUpdateSites = async (req, res) => {
-  const sites = req.body;
+  const sites = req.validatedBody ?? req.body;
 
   try {
     const results = [];

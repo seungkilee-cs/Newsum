@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import "../styles/Register.css"; // Import the CSS file
+import { registerUser } from "../services/authService";
 
 function CreateAccount() {
   const [username, setUsername] = useState("");
@@ -9,6 +9,8 @@ function CreateAccount() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
 
   const handleGoHome = () => {
@@ -17,21 +19,41 @@ function CreateAccount() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
+    setSuccessMessage("");
+
+    if (!username.trim()) {
+      setError("Username is required");
+      return;
+    }
+
     if (password !== confirmPassword) {
       setError("Passwords do not match");
       return;
     }
+
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters long");
+      return;
+    }
+
+    setIsSubmitting(true);
     try {
-      const response = await axios.post("/api/register", {
+      const response = await registerUser({
         username,
         email,
         password,
       });
-      console.log(response.data.message);
-      // Handle successful registration (e.g., redirect to login page)
+      setSuccessMessage(response.message || "Account created successfully");
+      setTimeout(() => navigate("/login"), 1200);
     } catch (error) {
-      setError(error.response?.data?.message || "Registration failed");
+      if (error.response?.data?.issues?.length) {
+        setError(error.response.data.issues[0].message);
+      } else {
+        setError(error.response?.data?.message || "Registration failed");
+      }
     }
+    setIsSubmitting(false);
   };
 
   return (
@@ -45,6 +67,7 @@ function CreateAccount() {
             onChange={(e) => setUsername(e.target.value)}
             placeholder="Username"
             required
+            aria-label="Username"
           />
           <input
             type="email"
@@ -52,6 +75,7 @@ function CreateAccount() {
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Email"
             required
+            aria-label="Email"
           />
           <input
             type="password"
@@ -59,6 +83,7 @@ function CreateAccount() {
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
             required
+            aria-label="Password"
           />
           <input
             type="password"
@@ -66,9 +91,21 @@ function CreateAccount() {
             onChange={(e) => setConfirmPassword(e.target.value)}
             placeholder="Confirm Password"
             required
+            aria-label="Confirm Password"
           />
-          <button type="submit">Create Account</button>
-          {error && <p className="error-message">{error}</p>}
+          <button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? "Creating Account..." : "Create Account"}
+          </button>
+          {error && (
+            <p className="error-message" role="alert">
+              {error}
+            </p>
+          )}
+          {successMessage && (
+            <p className="success-message" role="status">
+              {successMessage}
+            </p>
+          )}
         </form>
       </div>
       <div className="home-btn">

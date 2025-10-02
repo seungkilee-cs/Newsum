@@ -1,13 +1,14 @@
-import requests
+"""Legacy data sender retained for compatibility."""
 
-def send_to_backend(articles, MONGO):
-    backend_url = 'http://localhost:5001/mongo-receive-articles' if MONGO else 'http://localhost:5001/receive-articles'
-    headers = {'Content-Type': 'application/json'}
-    
-    try:
-        response = requests.post(backend_url, json=articles, headers=headers)
-        response.raise_for_status()
-        print(articles)
-        print(f"Data sent successfully. Status code: {response.status_code}")
-    except requests.RequestException as e:
-        print(f"Failed to send data to backend: {e}")
+from typing import List
+
+from scraper import send_to_backend as _send_to_backend
+
+
+def send_to_backend(articles: List[dict], use_mongo: bool = True) -> None:
+    """Delegate to the main scraper ingestion helper."""
+
+    # The new scraper handles ingestion via configuration. This helper keeps
+    # compatibility for older scripts that import `data_sender` directly.
+    _ = use_mongo  # use_mongo is preserved for backward compatibility
+    _send_to_backend(articles)

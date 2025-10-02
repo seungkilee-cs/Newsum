@@ -10,15 +10,19 @@ import { fetchArticles } from "../services/articleService";
 import { debugLog, debugError } from "../utils/debugUtils";
 import { truncateStringAtWordBoundary } from "../utils/strUtils";
 
-function CarouselView({ site }) {
+function CarouselView({ site, getSelectedSiteFromURL }) {
   const [articles, setArticles] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [activeSite, setActiveSite] = useState(site);
   const { siteName } = useParams(); // Get siteName from URL params
 
   useEffect(() => {
     const loadArticles = async () => {
-      if (!site) {
+      const resolvedSite = site || (getSelectedSiteFromURL && getSelectedSiteFromURL(siteName));
+      setActiveSite(resolvedSite);
+
+      if (!resolvedSite) {
         setError("No site selected.");
         setIsLoading(false);
         return;
@@ -26,7 +30,7 @@ function CarouselView({ site }) {
 
       setIsLoading(true);
       try {
-        const fetchedArticles = await fetchArticles(site);
+        const fetchedArticles = await fetchArticles(resolvedSite);
         debugLog("Fetched articles:", fetchedArticles);
         setArticles(fetchedArticles);
         if (fetchedArticles.length === 0) {
@@ -41,12 +45,16 @@ function CarouselView({ site }) {
     };
 
     loadArticles();
-  }, [site]);
+  }, [site, siteName, getSelectedSiteFromURL]);
 
   if (isLoading) return <div>Loading articles...</div>;
   if (error) return <div>{error}</div>;
   if (articles.length === 0)
-    return <div>No articles available for {siteName}.</div>;
+    return (
+      <div role="status" aria-live="polite">
+        No articles available for {activeSite?.name || siteName}.
+      </div>
+    );
 
   return (
     <Swiper
@@ -66,7 +74,7 @@ function CarouselView({ site }) {
       className="mySwiper"
     >
       {articles.slice(0, 10).map((article, index) => (
-        <SwiperSlide key={article._id}>
+        <SwiperSlide key={article.id}>
           <article className={`carousel-card rank-${index + 1}`}>
             <div className="article-header">
               <span className={`article-number rank-${index + 1}`}>
@@ -78,8 +86,10 @@ function CarouselView({ site }) {
               {truncateStringAtWordBoundary(article.title, 35)}
             </h2>
             <div className="article-meta">
-              <span className="article-author">{article.author}</span>
-              <span className="article-date">{article.date}</span>
+              <span className="article-author">{article.author || ""}</span>
+              <span className="article-date">
+                {article.publishDateLabel || "Date unavailable"}
+              </span>
             </div>
             <ul className="article-summary">
               {Array.isArray(article.summary) ? (

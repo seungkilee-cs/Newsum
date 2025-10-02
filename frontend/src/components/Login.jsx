@@ -1,12 +1,13 @@
 import React, { useState } from "react";
-import axios from "axios";
 import "../styles/Login.css";
 import { useNavigate } from "react-router-dom";
+import { loginUser } from "../services/authService";
 
 function Login() {
-  const [email, setEmail] = useState("");
+  const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
 
   const handleGoHome = () => {
@@ -15,16 +16,28 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
+
+    if (!identifier.trim()) {
+      setError("Username or email is required");
+      return;
+    }
+
+    setIsSubmitting(true);
     try {
-      const response = await axios.post("/api/login", {
-        email,
+      await loginUser({
+        identifier,
         password,
       });
-      console.log(response.data.message);
-      // Handle successful login (e.g., store token, redirect to dashboard)
+      navigate("/sites");
     } catch (error) {
-      setError(error.response?.data?.message || "Login failed");
+      if (error.response?.data?.issues?.length) {
+        setError(error.response.data.issues[0].message);
+      } else {
+        setError(error.response?.data?.message || "Login failed");
+      }
     }
+    setIsSubmitting(false);
   };
 
   return (
@@ -33,11 +46,12 @@ function Login() {
         <form className="login-form" onSubmit={handleSubmit}>
           <h2>Login</h2>
           <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Email"
+            type="text"
+            value={identifier}
+            onChange={(e) => setIdentifier(e.target.value)}
+            placeholder="Username or Email"
             required
+            aria-label="Username or Email"
           />
           <input
             type="password"
@@ -45,9 +59,16 @@ function Login() {
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
             required
+            aria-label="Password"
           />
-          <button type="submit">Login</button>
-          {error && <p className="error-message">{error}</p>}
+          <button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? "Signing in..." : "Login"}
+          </button>
+          {error && (
+            <p className="error-message" role="alert">
+              {error}
+            </p>
+          )}
         </form>
       </div>
       <div className="home-btn">

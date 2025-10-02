@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Site.css";
 
-const Site = ({ sites, onSiteSelect }) => {
+const Site = ({ sites, onSiteSelect, isLoading = false }) => {
   const navigate = useNavigate();
 
   const handleSiteSelect = (site) => {
@@ -16,7 +16,13 @@ const Site = ({ sites, onSiteSelect }) => {
     navigate("/");
   };
 
-  if (!sites || sites.length === 0) return <div>Loading sites...</div>;
+  if (isLoading) {
+    return <div>Loading sites...</div>;
+  }
+
+  if (!sites || sites.length === 0) {
+    return <div>No sites available. Please try again later.</div>;
+  }
 
   return (
     <div className="site-selector">
@@ -31,7 +37,7 @@ const Site = ({ sites, onSiteSelect }) => {
             <div
               className="site-image"
               style={{
-                backgroundImage: `url(${import.meta.env.BASE_URL}assets/${site.image})`,
+                backgroundImage: `url(${site.image?.startsWith("http") ? site.image : `${import.meta.env.BASE_URL}assets/${site.image}`})`,
               }}
             ></div>
             <div className="site-info">

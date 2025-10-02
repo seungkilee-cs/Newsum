@@ -1,13 +1,15 @@
-export const DEBUG = false; // Set this to false to disable debug logs
+export const DEBUG = false; // Toggle to enable detailed logging during development
+
+export const isDebugEnabled = () => DEBUG;
 
 export function debugLog(...args) {
-  if (DEBUG) {
+  if (isDebugEnabled()) {
     console.log(...args);
   }
 }
 
 export function debugError(...args) {
-  if (DEBUG) {
+  if (isDebugEnabled()) {
     console.error(...args);
   }
 }

@@ -7,20 +7,35 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "eslint .",
+    "test": "cross-env NODE_ENV=test node --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand",
+    "ci": "npm run lint && npm test"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^1.8.1",
+    "axios": "^1.12.0",
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "express-session": "^1.18.1",
-    "mongoose": "^8.9.5"
+    "mongoose": "^8.9.5",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
-    "nodemon": "^3.1.9"
+    "cross-env": "^10.1.0",
+    "eslint": "^9.13.0",
+    "jest": "^30.2.0",
+    "mongodb-memory-server": "^10.1.4",
+    "nodemon": "^3.1.9",
+    "supertest": "^7.1.4",
+    "tslib": "^2.7.0"
+  },
+  "overrides": {
+    "form-data": "^4.0.4",
+    "brace-expansion": "^2.0.1",
+    "on-headers": "^1.1.0"
   }
 }

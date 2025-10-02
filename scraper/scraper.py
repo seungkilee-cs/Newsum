@@ -1,128 +1,185 @@
+import logging
+from datetime import datetime
+from typing import Iterable, List
+
 import requests
 from bs4 import BeautifulSoup
-from config import SAMPLE_URL_PATH, SAMPLE_NEWS_SITE_URL
+from requests.adapters import HTTPAdapter
+from urllib3.util import Retry
+
+from config import (
+    BACKOFF_FACTOR,
+    DEFAULT_SITE_KEY,
+    DEFAULT_TIMEOUT,
+    INGESTION_URL,
+    LOG_LEVEL,
+    MAX_RETRIES,
+    USE_MONGO,
+    USE_TEST_SUMMARY,
+    get_site_config,
+)
 from summarizer import generate_summary
-from urllib.parse import urlparse
-
-import json
-from datetime import datetime
+from utils import get_base_url
 
 
-DEBUG = False
-# Basically API call flag. If not TEST, call LLM API. Else, use test data. -> Prob should make a separate flag for this. I'm also using this to test the url uid for MongoDB
-TEST = True
-# Clean this up later
-MONGOTEST = False
-MONGO = True
-
-# Use the constants directly:
-sample_url_path = SAMPLE_URL_PATH
-sample_news_site_url = SAMPLE_NEWS_SITE_URL
-
-# URL Parsing for site
-def get_base_url(url):
-    parsed_url = urlparse(url)
-    return f"{parsed_url.scheme}://{parsed_url.netloc}"
-
-# extract article from the article post
-def extract_article_text(soup):
-    article_text = []
-
-    for div in soup.find_all('div', attrs={'data-breakout': 'normal'}):
-        p_tag = div.find('p')
-        if p_tag:
-            spans = p_tag.find_all('span')
-            if len(spans) >= 2:
-                deepest_span = spans[-1]
-                article_text.append(deepest_span.get_text(strip=True))
-
-    return ' '.join(article_text)
+logger = logging.getLogger("scraper")
+logging.basicConfig(level=LOG_LEVEL)
 
 
-# construct object to send to backend
-def scrape_article(url):
-    # Fetch the HTML content
-    response = requests.get(url)
-    soup = BeautifulSoup(response.content, 'html.parser')
+def build_session() -> requests.Session:
+    session = requests.Session()
+    retries = Retry(
+        total=MAX_RETRIES,
+        backoff_factor=BACKOFF_FACTOR,
+        status_forcelist=(500, 502, 503, 504),
+        allowed_methods=("GET", "POST"),
+    )
+    adapter = HTTPAdapter(max_retries=retries)
+    session.mount("http://", adapter)
+    session.mount("https://", adapter)
+    session.headers.update({
+        "User-Agent": "NewsumScraper/1.0 (+https://github.com/seungkilee-cs/Newsum)",
+    })
+    return session
 
-    # Extract title
-    title_span = soup.find('span', class_='blog-post-title-font blog-post-title-color')
-    title = title_span.text if title_span else 'Title not found'
 
-    # Extract date
-    date_span = soup.find('span', class_='post-metadata__date time-ago')
-    date = date_span['title'] if date_span else 'Date not found'
+session = build_session()
 
-    # Extract author
-    author_span = soup.find('span', class_='tQ0Q1A user-name dlINDG')
-    author = author_span['title'] if author_span else 'Author not found'
-    # site = 'https://www.americanlibertymedia.com'
+
+def extract_article_text(soup: BeautifulSoup, breakout_attr: dict | None) -> List[str]:
+    paragraphs: List[str] = []
+    selectors = breakout_attr or {"data-breakout": "normal"}
+
+    for div in soup.find_all("div", attrs=selectors):
+        for paragraph in div.find_all("p"):
+            text = paragraph.get_text(strip=True)
+            if text:
+                paragraphs.append(text)
+
+    return paragraphs
+
+
+def extract_image_url(soup: BeautifulSoup, selector: str | None) -> str:
+    if not selector:
+        return ""
+
+    image = soup.select_one(selector)
+    if image and image.has_attr("src"):
+        return image["src"]
+    return ""
+
+
+def fetch_article(url: str, site_key: str) -> dict | None:
+    logger.debug("Fetching article url=%s site_key=%s", url, site_key)
+    config = get_site_config(site_key)
+
+    response = session.get(url, timeout=DEFAULT_TIMEOUT)
+    response.raise_for_status()
+
+    soup = BeautifulSoup(response.content, "html.parser")
+
+    title_element = soup.select_one(config.title_selector)
+    title = title_element.get_text(strip=True) if title_element else "Title not found"
+
+    date_element = soup.select_one(config.date_selector)
+    publish_date = None
+    if date_element:
+        if config.date_attr and date_element.has_attr(config.date_attr):
+            publish_date = date_element[config.date_attr]
+        else:
+            publish_date = date_element.get_text(strip=True)
+
+    author_element = soup.select_one(config.author_selector)
+    author = ""
+    if author_element:
+        if author_element.has_attr("title"):
+            author = author_element["title"]
+        else:
+            author = author_element.get_text(strip=True)
+
+    paragraphs = extract_article_text(soup, config.content_breakout_attr)
+    content = paragraphs
+
+    summary = generate_summary(
+        article_content="\n".join(paragraphs),
+        test=USE_TEST_SUMMARY,
+    )
+
     site = get_base_url(url)
+    image_url = extract_image_url(soup, config.image_selector)
 
-    # Extract article content
-    # Join the text elements
-    article_content = extract_article_text(soup)
+    article_payload = {
+        "title": title,
+        "url": url,
+        "author": author,
+        "publishDate": publish_date,
+        "content": content,
+        "summary": summary,
+        "site": site,
+        "imageUrl": image_url,
+    }
 
-    article_summary = generate_summary(article_content=article_content, test=TEST)
+    logger.debug("Extracted article payload: %s", article_payload)
+    return article_payload
 
-    # Testing if 
-    if MONGOTEST:
-        url = url + "_test"
 
-    if MONGO:
-        return {
-            'title': title,
-            'url': url,
-            'author': author,
-            'publishDate': date,
-            'content': article_content.split('\n') if isinstance(article_content, str) else article_content,
-            'summary': article_summary if isinstance(article_summary, list) else [article_summary],
-            'site': site,
-            'imageUrl': 'test.url'  # Add this field, even if empty
-        }
+def fetch_listing_urls(site_key: str) -> Iterable[str]:
+    config = get_site_config(site_key)
+    logger.info("Fetching listing for site=%s", config.name)
 
+    response = session.get(config.listing_url, timeout=DEFAULT_TIMEOUT)
+    response.raise_for_status()
+
+    soup = BeautifulSoup(response.content, "html.parser")
+    for link in soup.select(config.article_link_selector):
+        href = link.get("href")
+        if href:
+            yield href
+
+
+def send_to_backend(articles: List[dict]) -> None:
+    logger.info("Sending %d articles to backend", len(articles))
+    response = session.post(INGESTION_URL, json=articles, timeout=DEFAULT_TIMEOUT)
+    response.raise_for_status()
+    logger.info("Ingestion success status=%s", response.status_code)
+
+
+def scrape_site(site_key: str = DEFAULT_SITE_KEY) -> List[dict]:
+    articles: List[dict] = []
+    for url in fetch_listing_urls(site_key):
+        try:
+            article = fetch_article(url, site_key)
+            if article:
+                articles.append(article)
+        except requests.HTTPError as http_error:
+            logger.warning("HTTP error scraping url=%s err=%s", url, http_error)
+        except Exception as exc:  # noqa: BLE001
+            logger.exception("Unexpected error scraping url=%s", url, exc_info=exc)
+
+    logger.info("Collected %d articles for site=%s", len(articles), site_key)
+    return articles
+
+
+def main(site_key: str = DEFAULT_SITE_KEY) -> None:
+    start = datetime.utcnow()
+    articles = scrape_site(site_key)
+
+    if not articles:
+        logger.warning("No articles scraped for site=%s", site_key)
+        return
+
+    if USE_MONGO:
+        try:
+            send_to_backend(articles)
+        except requests.RequestException as exc:
+            logger.error("Failed to send articles to backend: %s", exc)
     else:
-        return {
-            'title': title,
-            'url': url,
-            'author': author,
-            'date': date,
-            'content': article_content,
-            'summary': article_summary,
-            'site': site
-        }
+        for article in articles:
+            logger.info("Article: %s", article)
 
-def send_to_backend(articles):
-    if MONGO:
-        backend_url = 'http://localhost:5001/mongo-receive-articles'
-    else:
-        backend_url = 'http://localhost:5001/receive-articles'
-    headers = {'Content-Type': 'application/json'}
-    
-    try:
-        response = requests.post(backend_url, json=articles, headers=headers)
-        response.raise_for_status()
-        print(articles)
-        print(f"Data sent successfully. Status code: {response.status_code}")
-    except requests.RequestException as e:
-        print(f"Failed to send data to backend: {e}")
+    duration = (datetime.utcnow() - start).total_seconds()
+    logger.info("Scrape completed in %.2fs", duration)
 
-if __name__ == '__main__':
 
-    # testing with ALM
-    response = requests.get(SAMPLE_NEWS_SITE_URL)
-    soup = BeautifulSoup(response.content, 'html.parser')
-
-    # Somehow static article class?
-    article_class = "O16KGI pu51Xe JnzaaY xs2MeC"
-
-    # Assuming you have already created the soup object
-    url_list = [a['href'] for a in soup.find_all('a', class_=article_class) if a.has_attr('href')]
-
-    # articles = scrape_article()
-    articles = [scrape_article(url) for url in url_list]
-    if DEBUG:
-        for a in articles:
-            print(a)
-    else:
-        send_to_backend(articles)
+if __name__ == "__main__":
+    main()

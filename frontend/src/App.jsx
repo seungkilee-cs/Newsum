@@ -19,6 +19,7 @@ import "./styles/App.css";
 
 function App() {
   const [sites, setSites] = useState([]);
+  const [sitesLoading, setSitesLoading] = useState(true);
   const [selectedSite, setSelectedSite] = useState(() => {
     const storedSite = localStorage.getItem("selectedSite");
     return storedSite ? JSON.parse(storedSite) : null;
@@ -26,11 +27,46 @@ function App() {
 
   useEffect(() => {
     const loadSites = async () => {
-      const fetchedSites = await fetchSites();
-      setSites(fetchedSites);
+      try {
+        const fetchedSites = await fetchSites();
+        setSites(fetchedSites);
+      } finally {
+        setSitesLoading(false);
+      }
     };
     loadSites();
   }, []);
+
+  useEffect(() => {
+    if (!sites.length) {
+      return;
+    }
+
+    if (!selectedSite) {
+      const storedSite = localStorage.getItem("selectedSite");
+      if (storedSite) {
+        try {
+          const parsedSite = JSON.parse(storedSite);
+          const matchedSite = sites.find((site) => site.url === parsedSite.url);
+          if (matchedSite) {
+            setSelectedSite(matchedSite);
+          }
+        } catch (error) {
+          console.error("Failed to parse stored site", error);
+        }
+      }
+      return;
+    }
+
+    const matchedSite = sites.find((site) => site.url === selectedSite.url);
+    if (!matchedSite) {
+      setSelectedSite(null);
+      localStorage.removeItem("selectedSite");
+    } else if (matchedSite !== selectedSite) {
+      setSelectedSite(matchedSite);
+      localStorage.setItem("selectedSite", JSON.stringify(matchedSite));
+    }
+  }, [sites, selectedSite]);
 
   const handleSiteSelect = (site) => {
     setSelectedSite(site);
@@ -58,7 +94,13 @@ function App() {
           {/* <Route path="/account-setting" element={<AccountSetting />} /> */}
           <Route
             path="/sites"
-            element={<Site sites={sites} onSiteSelect={handleSiteSelect} />}
+            element={
+              <Site
+                sites={sites}
+                onSiteSelect={handleSiteSelect}
+                isLoading={sitesLoading}
+              />
+            }
           />
           <Route
             path="/site/:siteName"
